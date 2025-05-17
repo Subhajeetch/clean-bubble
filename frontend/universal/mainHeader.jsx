@@ -1,0 +1,79 @@
+import Link from "next/link";
+import { ShoppingCart, Menu } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+
+import Image from "next/image";
+
+
+export default function MainHeader() {
+    return (
+        <header className="absolute w-full top-0 left-0 h-16 bg-blue-400 flex items-center justify-between px-4">
+            <div className="flex items-center gap-3">
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger className="md:hidden"><Menu size={26} /></DropdownMenuTrigger>
+                    <DropdownMenuContent className="ml-2">
+                        <DropdownMenuLabel>Nevigation Menu</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                            <Link href="#" className="font-semibold">
+                                Our Story
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href="#" className="font-semibold">
+                                Contact
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href="#" className="font-semibold">
+                                Terms
+                            </Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <Link href="#" className="font-semibold hidden md:block">
+                    Our Story
+                </Link>
+                <Link href="#" className="font-semibold hidden md:block">
+                    Contact
+                </Link>
+                <Link href="#" className="font-semibold hidden md:block">
+                    Terms
+                </Link>
+            </div>
+
+            <div>
+
+                <Image
+                    width={80}
+                    height={80}
+                    src="/clean-bubble-logo.png"
+                    alt="Clean Bubble Logo"
+                />
+
+            </div>
+            <div className="flex items-center gap-3">
+                <Link className="h-7 w-7 relative" href="#">
+                    <span className="h-4 w-4 rounded-full bg-orange-400 absolute top-[-7px] right-[-3px] flex items-center justify-center text-[12px] font-bold">3</span>
+                    <ShoppingCart size={26} />
+                </Link>
+
+                <Link href="#">
+                    <Button>
+                        Login
+                    </Button>
+                </Link>
+            </div>
+        </header>
+    );
+}
