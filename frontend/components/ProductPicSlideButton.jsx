@@ -23,7 +23,7 @@ const EmblaButtons = () => {
     }, [emblaApi, updateButtons])
 
     return (
-        <div className="embla__buttons">
+        <div className="lg:flex gap-10 hidden">
             <PrevButton onClick={() => emblaApi && emblaApi.scrollPrev()} disabled={prevDisabled} />
             <NextButton onClick={() => emblaApi && emblaApi.scrollNext()} disabled={nextDisabled} />
         </div>

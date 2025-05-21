@@ -1,7 +1,7 @@
 .embla {
     max-width: 48rem;
     margin: auto;
-    --slide-height: 19rem;
+    --slide-height: 100%;
     --slide-spacing: 1rem;
     --slide-size: 100%;
 }
@@ -41,13 +41,6 @@
     justify-content: space-between;
     gap: 1.2rem;
     margin-top: 1.8rem;
-}
-
-.embla__buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.6rem;
-    align-items: center;
 }
 
 .embla__button {
@@ -119,4 +112,14 @@
 .embla__dot--selected:after {
     background-color: var(--text-body, #ffffff);
     box-shadow: inset 0 0 0 0.2rem var(--text-body, #ffffff);
+}
+
+.custom-m-query {
+    width: 380px;
+}
+
+@media (max-width: 560px) {
+    .custom-m-query {
+        width: 86vw;
+    }
 }

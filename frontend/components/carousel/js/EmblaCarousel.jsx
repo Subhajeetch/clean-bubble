@@ -2,13 +2,11 @@
 
 import React, { useEffect } from 'react'
 import { DotButton, useDotButton } from './EmblaDot'
-import {
-    PrevButton,
-    NextButton,
-    usePrevNextButtons
-} from './EmblaArrow'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useEmbla } from '../../EmblaContext'
+
+// product pics
+import productPics from '@/productPics'
 
 const EmblaCarousel = (props) => {
     const { slides, options } = props
@@ -22,27 +20,23 @@ const EmblaCarousel = (props) => {
     const { selectedIndex, scrollSnaps, onDotButtonClick } =
         useDotButton(emblaApi)
 
-    const {
-        prevBtnDisabled,
-        nextBtnDisabled,
-        onPrevButtonClick,
-        onNextButtonClick
-    } = usePrevNextButtons(emblaApi)
-
     return (
-        <section className="embla">
-            <div className="embla__viewport" ref={emblaRef}>
-                <div className="embla__container">
-                    {slides.map((index) => (
-                        <div className="embla__slide" key={index}>
-                            <div className="embla__slide__number">{index + 1}</div>
+        <section className="embla custom-m-query w-[360px] h-full">
+            <div className="embla__viewport h-full" ref={emblaRef}>
+                <div className="embla__container h-full ">
+                    {productPics.map((pic, i) => (
+                        <div className="embla__slide " key={i}>
+                            <div className="embla__slide__number w-full">
+                                <img src={pic.src} alt={pic.alt} className='w-full' />
+
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div className="embla__controls w-full flex items-center justify-center bg-amber-700">
-                <div className="w-full flex justify-center items-center bg-amber-500">
+            <div className="relative w-full flex items-center justify-center">
+                <div className="absolute bottom-1 w-full flex justify-center items-center">
                     {scrollSnaps.map((_, index) => (
                         <DotButton
                             key={index}
