@@ -1,23 +1,23 @@
 const productPics = [
     {
         "alt": "Clean Bubble Senitizer",
-        "src": "/clean-bubble-photo-1.png",
+        "src": "/clean-bubble-gallery-1.png",
     },
     {
         "alt": "Clean Bubble Senitizer",
-        "src": "/clean-bubble-photo-2.png",
+        "src": "/clean-bubble-gallery-1.png",
     },
     {
         "alt": "Clean Bubble Senitizer",
-        "src": "/clean-bubble-photo-3.png",
+        "src": "/clean-bubble-gallery-1.png",
     },
     {
         "alt": "Clean Bubble Senitizer",
-        "src": "/clean-bubble-photo-4.png",
+        "src": "/clean-bubble-gallery-1.png",
     },
     {
         "alt": "Clean Bubble Senitizer",
-        "src": "/clean-bubble-photo-5.png",
+        "src": "/clean-bubble-gallery-1.png",
     }
 ];
 
