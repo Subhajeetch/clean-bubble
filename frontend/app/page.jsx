@@ -17,6 +17,9 @@ import EmblaButtons from '../components/ProductPicSlideButton';
 import { EmblaProvider } from '../components/EmblaContext'
 
 
+// custom icons
+import { HandWashOne } from '@/components/icons';
+
 
 export default function App() {
 
@@ -127,22 +130,22 @@ export default function App() {
 
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className='text-xl'>Description</AccordionTrigger>
+                <AccordionTrigger className='text-xl'><h2>Description</h2></AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  Experience superior hygiene with our Clean Bubble - Foaming Hand Sanitizer, engineered for rich lather and minimal water use. It effectively removes dirt and kills 99.9% of germs without rinsing. Enriched with lavender essential oil, it leaves hands clean, fresh, and lightly scented—without dryness.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger className='text-xl'>Ingredients</AccordionTrigger>
+                <AccordionTrigger className='text-xl'><h2>Ingredients</h2></AccordionTrigger>
                 <AccordionContent>
                   Yes. It comes with default styles that matches the other
                   components&apos; aesthetic.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger className='text-xl'>Usage</AccordionTrigger>
+                <AccordionTrigger className='text-xl'><h2>Usage</h2></AccordionTrigger>
                 <AccordionContent>
-                  Yes. It's animated by default, but you can disable it if you prefer.
+                  Dispense a small amount of foam onto dry hands. Rub thoroughly across all areas of the hands until completely dry. No rinsing or water required. Use as needed to maintain effective hand hygiene.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -150,6 +153,74 @@ export default function App() {
         </div>
       </EmblaProvider>
       {/* main div end */}
+      <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-14'>
+        <div className='bg-muted rounded-md p-4 flex flex-col gap-6'>
+
+          <div className=''>
+            <h3 className='text-[17px] font-semibold text-[#31b498]'>It's Portable</h3>
+            <p className='text-foreground text-2xl font-bold mt-2 min-h-[100px]'>
+              Take it anywhere, stay clean on the go!
+            </p>
+          </div>
+
+          <div className=''>
+            <img src="/clean-bubble-portable1.png" alt="Portable hand senitizer of clean bubble" className='w-full h-full rounded-lg object-cover' />
+          </div>
+
+        </div>
+
+
+        <div className='bg-muted rounded-md p-4 flex flex-col gap-6'>
+
+          <div className=''>
+            <h3 className='text-[17px] font-semibold text-[#ffc400]'>No Water Needed</h3>
+            <p className='text-foreground text-2xl font-bold mt-2 min-h-[100px]'>
+              Use it anywhere, anytime, with ease!
+            </p>
+          </div>
+
+          <div className=''>
+            <img src="/clean-bubble-no-water.png" alt="Portable hand senitizer of clean bubble" className='w-full h-full rounded-lg object-cover' />
+          </div>
+
+        </div>
+
+
+        <div className='bg-muted rounded-md p-4 flex flex-col gap-6'>
+
+          <div className=''>
+            <h3 className='text-[17px] font-semibold text-[#ec8eff]'>No Sticky Residue</h3>
+            <p className='text-foreground text-2xl font-bold mt-2 min-h-[100px]'>
+              Quick-absorbing foam leaves hands soft, clean.
+            </p>
+          </div>
+
+          <div className=''>
+            <img src="/clean-bubble-no-sticky-hand.jpg" alt="Portable hand senitizer of clean bubble" className='w-full h-full rounded-lg object-cover' />
+          </div>
+
+        </div>
+
+
+        <div className='bg-muted rounded-md p-4 flex flex-col gap-6'>
+
+          <div className=''>
+            <h3 className='text-[17px] font-semibold text-[#71afff]'>Kills 99.99% Germs</h3>
+            <p className='text-foreground text-2xl font-bold mt-2 min-h-[100px]'>
+              Makes your hands safe and clean in seconds!
+            </p>
+          </div>
+
+          <div className=''>
+            <img src="/no-germs-clean-bubble.png" alt="Portable hand senitizer of clean bubble" className='w-full h-full rounded-lg object-cover' />
+          </div>
+
+        </div>
+      </section>
+
+      <div className='w-full h-40'>
+
+      </div>
     </main >
   );
 }
