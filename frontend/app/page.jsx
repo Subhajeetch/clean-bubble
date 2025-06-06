@@ -83,7 +83,7 @@ export default function App() {
                     Hand
                   </span>
                   <span>
-                    <img src="/paw.gif" alt="cute hand gif" className='h-16' />
+                    <img src="https://i.postimg.cc/zBHQgn8v/Paw.gif" alt="cute hand gif" className='h-16' />
                   </span>
                 </span>
                 <span>Sanitizer</span>
