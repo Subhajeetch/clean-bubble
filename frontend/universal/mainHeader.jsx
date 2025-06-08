@@ -8,9 +8,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 
-import Image from "next/image";
+// dialog
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger
+} from "@/components/ui/dialog"
+
+// login and signup
+import AuthSection from "@/components/auth/LoginSignup";
 
 
 export default function MainHeader() {
@@ -59,11 +66,14 @@ export default function MainHeader() {
                         <ShoppingCart size={26} />
                     </Link>
 
-                    <Link href="#">
-                        <Button>
+                    <Dialog>
+                        <DialogTrigger className='bg-main h-8 w-16 justify-center items-center font-[700] rounded-lg'>
                             Login
-                        </Button>
-                    </Link>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <AuthSection />
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </header>

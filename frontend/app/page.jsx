@@ -17,10 +17,6 @@ import EmblaButtons from '../components/ProductPicSlideButton';
 import { EmblaProvider } from '../components/EmblaContext'
 
 
-// custom icons
-import { HandWashOne } from '@/components/icons';
-
-
 export default function App() {
 
   const OPTIONS = {}
