@@ -173,6 +173,7 @@ const AuthSection = () => {
     const handleSignUpSubmit = async e => {
         e.preventDefault();
 
+        /*
         setSignupLoading(true);
 
         setTimeout(() => {
@@ -180,13 +181,13 @@ const AuthSection = () => {
             console.log("Sign Up Data:", signUpData);
         }, 2400);
 
+*/
 
 
-        /*
         try {
             setSignupLoading(true);
             const response = await axios.post(
-                "/api/mantox/auth/signup",
+                `${cred.backendURL}/api/auth/signup`,
                 signUpData,
                 {
                     headers: { "Content-Type": "application/json" },
@@ -195,12 +196,12 @@ const AuthSection = () => {
             );
 
             if (response.data.success) {
-                localStorage.setItem("XMXYV2", "true");
-                setUser(response.data.user);
-                router.push("/home");
+
+                // setUser(response.data.user);
+                //  router.push("/home");
                 setSignupLoading(false);
 
-                toast.success(`Welcome, ${response.data.user.displayName}`);
+                toast.success(`Welcome, ${response.data.user.fullName}!`);
             } else {
                 toast.warning(`${response.data.message}`);
                 setSignupLoading(false);
@@ -220,7 +221,7 @@ const AuthSection = () => {
                 console.error("Error during sign-up:", error);
             }
         }
-            */
+
     };
 
     return (

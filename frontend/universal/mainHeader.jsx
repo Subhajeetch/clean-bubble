@@ -67,7 +67,7 @@ export default function MainHeader() {
                     </Link>
 
                     <Dialog>
-                        <DialogTrigger className='bg-main h-8 w-16 justify-center items-center font-[700] rounded-lg'>
+                        <DialogTrigger className='bg-foreground text-background px-2.5 py-1 justify-center items-center font-[700] rounded-lg cursor-pointer'>
                             Login
                         </DialogTrigger>
                         <DialogContent>
