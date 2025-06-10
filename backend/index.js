@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 // momgodb
 const mongoose = require('mongoose');
@@ -11,6 +12,8 @@ const routes = require('./routes');
 const app = express();
 const port = 9000;
 dotenv.config();
+app.use(cookieParser());
+app.use(express.json());
 
 // only specific origins
 const allowedOrigins = [
@@ -23,12 +26,11 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI).then(() => {
-    console.log('Connected to MongoDB');
+mongoose.connect(process.env.MONGO_URI).then((conn) => {
+    console.log('Connected to MongoDB. Collection Name:', conn.connection.name);
 }).catch(err => {
     console.error('MongoDB connection error:', err);
 });

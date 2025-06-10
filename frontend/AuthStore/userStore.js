@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import cred from "@/mine.config"
 
 const useAuthStore = create(set => ({
     user: null,
@@ -14,12 +15,12 @@ const useAuthStore = create(set => ({
     logout: async () => {
         try {
             await axios.post(
-                "/api/mantox/auth/logout",
+                `${cred.backendURL}/api/auth/logout`,
                 {},
                 { withCredentials: true }
             );
 
-            localStorage.removeItem("XMXYV2");
+            localStorage.removeItem("KKXXCHECK");
             set({ user: null, isAuthenticated: false, isLoading: false });
         } catch (error) {
             console.error("Logout failed:", error);

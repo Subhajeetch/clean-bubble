@@ -9,16 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// dialog
-import {
-    Dialog,
-    DialogContent,
-    DialogTrigger
-} from "@/components/ui/dialog"
-
-// login and signup
-import AuthSection from "@/components/auth/LoginSignup";
-
+import LoginORprofileButton from "./LoginORprofileButton";
 
 export default function MainHeader() {
     return (
@@ -66,14 +57,7 @@ export default function MainHeader() {
                         <ShoppingCart size={26} />
                     </Link>
 
-                    <Dialog>
-                        <DialogTrigger className='bg-foreground text-background px-2.5 py-1 justify-center items-center font-[700] rounded-lg cursor-pointer'>
-                            Login
-                        </DialogTrigger>
-                        <DialogContent>
-                            <AuthSection />
-                        </DialogContent>
-                    </Dialog>
+                    < LoginORprofileButton />
                 </div>
             </div>
         </header>

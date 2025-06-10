@@ -59,6 +59,10 @@ const AuthSection = () => {
     //signup loader
     const [signupLoading, setSignupLoading] = useState(false);
 
+    // formatted phone number for show on input
+    const [formattedPhone, setFormattedPhone] = useState('');
+
+
     useEffect(() => {
         const { password } = signUpData;
 
@@ -127,19 +131,10 @@ const AuthSection = () => {
         e.preventDefault();
 
 
-        setLoginLoading(true);
-
-        setTimeout(() => {
-            setLoginLoading(false);
-            console.log("LOGin data:", loginData);
-        }, 2400);
-
-        /*
-
         try {
             setLoginLoading(true);
             const response = await axios.post(
-                "/api/mantox/auth/login",
+                `${cred.backendURL}/api/auth/login`,
                 loginData,
                 {
                     headers: { "Content-Type": "application/json" },
@@ -148,12 +143,12 @@ const AuthSection = () => {
             );
 
             if (response.data.success) {
-                localStorage.setItem("XMXYV2", "true");
+                localStorage.setItem("KKXXCHECK", "true");
                 setUser(response.data.user);
                 setLoginLoading(false);
-                router.push("/home");
+                router.push("/");
                 toast.success(
-                    `Welcome Back, ${response.data.user.displayName}`
+                    `Welcome Back, ${response.data.user.fullName}!`
                 );
             } else {
                 toast.warning(`${response.data.message}`);
@@ -167,23 +162,11 @@ const AuthSection = () => {
 
             toast.warning(`${errMsg}`);
         }
-            */
+
     };
 
     const handleSignUpSubmit = async e => {
         e.preventDefault();
-
-        /*
-        setSignupLoading(true);
-
-        setTimeout(() => {
-            setSignupLoading(false);
-            console.log("Sign Up Data:", signUpData);
-        }, 2400);
-
-*/
-
-
         try {
             setSignupLoading(true);
             const response = await axios.post(
@@ -196,9 +179,9 @@ const AuthSection = () => {
             );
 
             if (response.data.success) {
-
-                // setUser(response.data.user);
-                //  router.push("/home");
+                localStorage.setItem("KKXXCHECK", "true");
+                setUser(response.data.user);
+                router.push("/");
                 setSignupLoading(false);
 
                 toast.success(`Welcome, ${response.data.user.fullName}!`);
@@ -223,6 +206,30 @@ const AuthSection = () => {
         }
 
     };
+
+
+
+    // Format phone number for display and reformat for submission
+    const handlePhoneChange = (e) => {
+
+        const raw = e.target.value.replace(/\D/g, '');
+
+        // format like pakistan phone number
+        // e.g. 1234567890 -> 123-4567890
+        let formatted = raw;
+        if (raw.length > 3) {
+            formatted = raw.slice(0, 3) + '-' + raw.slice(3, 10);
+        }
+
+        setFormattedPhone(formatted);
+
+        // Store raw phone number in signUpData
+        setSignUpData({
+            ...signUpData,
+            phone: raw.slice(0, 10)
+        });
+    };
+
 
     return (
         <div className='p-6'>
@@ -396,14 +403,9 @@ const AuthSection = () => {
                                 <input
                                     type='tel'
                                     className='w-full px-3 py-2 outline-none rounded-md bg-muted'
-                                    value={signUpData.phone}
-                                    placeholder='123-456-7890'
-                                    onChange={e =>
-                                        setSignUpData({
-                                            ...signUpData,
-                                            phone: e.target.value
-                                        })
-                                    }
+                                    value={formattedPhone}
+                                    placeholder='123-4567890'
+                                    onChange={handlePhoneChange}
                                 />
                             </div>
 
