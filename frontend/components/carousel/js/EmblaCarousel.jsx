@@ -26,8 +26,8 @@ const EmblaCarousel = (props) => {
                 <div className="embla__container h-full ">
                     {productPics.map((pic, i) => (
                         <div className="embla__slide " key={i}>
-                            <div className="embla__slide__number w-full">
-                                <img src={pic.src} alt={pic.alt} className='w-full' />
+                            <div className="embla__slide__number w-full rounded-2xl overflow-hidden">
+                                <img src={pic.src} alt={pic.alt} className='h-full object-cover rounded-t-full' />
 
                             </div>
                         </div>

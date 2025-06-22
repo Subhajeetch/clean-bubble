@@ -8,6 +8,15 @@ import { Toaster } from "@/components/ui/sonner";
 // authprovider
 import AuthProvider from "@/context/AuthProvider";
 
+// cart provider
+import { CartProvider } from '@/context/cartContext';
+
+// cart sheet provider
+import { SheetProvider } from '@/context/SheetContext';
+
+// login tabs provider
+import { LoginProvider } from '@/context/LoginContext';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,16 +42,22 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <MainHeader />
-            {children}
-            <Toaster />
-          </ThemeProvider>
+          <LoginProvider>
+            <CartProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <SheetProvider>
+                  <MainHeader />
+                  {children}
+                  <Toaster />
+                </SheetProvider>
+              </ThemeProvider>
+            </CartProvider>
+          </LoginProvider>
         </AuthProvider>
       </body>
     </html>

@@ -11,6 +11,10 @@ import {
 
 import LoginORprofileButton from "./LoginORprofileButton";
 
+
+// cart
+import Cart from "./Cart";
+
 export default function MainHeader() {
     return (
         <header className="absolute z-50 w-full top-0 left-0 h-16 px-4">
@@ -52,10 +56,7 @@ export default function MainHeader() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <Link className="h-7 w-7 relative" href="#">
-                        <span className="h-4 w-4 rounded-full bg-orange-400 absolute top-[-7px] right-[-3px] flex items-center justify-center text-[12px] font-bold">3</span>
-                        <ShoppingCart size={26} />
-                    </Link>
+                    <Cart />
 
                     < LoginORprofileButton />
                 </div>

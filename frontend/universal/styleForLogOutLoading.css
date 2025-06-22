@@ -6,7 +6,24 @@
 
 .gayxx {
     fill: none;
-    stroke: hsl(214, 0%, 81.7%);
+    stroke: var(--color-foreground);
+    stroke-width: 6;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+}
+
+
+.idkggoncheckout {
+    height: 26px;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+}
+
+.gayxxoncheckout {
+    fill: none;
+    stroke: var(--color-background);
     stroke-width: 6;
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;

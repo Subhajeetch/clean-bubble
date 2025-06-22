@@ -130,5 +130,10 @@
 
   body {
     @apply bg-background text-foreground;
+
+  }
+
+  button {
+    @apply cursor-pointer select-none;
   }
 }

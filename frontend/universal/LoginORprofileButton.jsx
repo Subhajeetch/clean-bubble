@@ -27,7 +27,14 @@ import AuthSection from "@/components/auth/LoginSignup";
 import useAuthStore from "@/AuthStore/userStore";
 
 
+// login tabs provider
+import { useLogin } from "@/context/LoginContext";
+
+
 export default function LoginORprofileButton() {
+    // context
+    const { isLoginOpen, closeLogin, setLoginState } = useLogin();
+
     const { user, logout, isAuthenticated, setLoading, isLoading } = useAuthStore();
     const router = useRouter();
 
@@ -45,9 +52,25 @@ export default function LoginORprofileButton() {
     };
 
 
-    return (
+    // toggle dialog
+    const handleLoginOpen = (open) => {
+        setLoginState(open);
+    };
 
-        (user ? (
+
+    return (
+        isLoading ? (
+            <div className="h-8 w-8 flex justify-center items-center">
+                <svg className='idkgg' viewBox='25 25 50 50'>
+                    <circle
+                        className='gayxx'
+                        r='20'
+                        cy='50'
+                        cx='50'
+                    ></circle>
+                </svg>
+            </div>
+        ) : user && isAuthenticated ? (
             <Popover>
                 <PopoverTrigger>
                     <div className="h-8 w-8 rounded-full bg-[#321069] flex justify-center items-center">
@@ -101,14 +124,14 @@ export default function LoginORprofileButton() {
                 </PopoverContent>
             </Popover>
         ) : (
-            <Dialog>
+            <Dialog open={isLoginOpen} onOpenChange={handleLoginOpen}>
                 <DialogTrigger className='bg-foreground text-background px-2.5 py-1 justify-center items-center font-[700] rounded-lg cursor-pointer'>
                     Login
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent onEscapeKeyDown={closeLogin}>
                     <AuthSection />
                 </DialogContent>
             </Dialog>
         )
-        ))
+    )
 }

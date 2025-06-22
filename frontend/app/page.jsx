@@ -1,5 +1,9 @@
 import { CircleCheck, Heart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+// add to cart button
+import AddToCartButton from '@/components/AddToCartButton';
 
 // accordion
 import {
@@ -22,6 +26,16 @@ export default function App() {
   const OPTIONS = {}
   const SLIDE_COUNT = 5
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+
+
+  const productData = {
+    id: 1,
+    image: "/clean-bubble-gallery-2.jpg",
+    name: "Foaming Hand Sanitizer",
+    price: 249.99,
+    size: "50ml",
+    quantity: 1
+  };
 
 
   return (
@@ -99,11 +113,7 @@ export default function App() {
 
               <div className="flex flex-col gap-4 mt-8">
                 <div className="flex items-center gap-2">
-                  <Button size="xl"
-                    className="flex items-center rounded-full px-6 py-3">
-                    <CircleCheck />
-                    <span className="font-semibold">Add To Cart</span>
-                  </Button>
+                  <AddToCartButton productData={productData} />
                   <Button variant="outline">
                     <Heart />
                   </Button>
