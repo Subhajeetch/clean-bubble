@@ -17,9 +17,27 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String,
-    },
+    shippingAddress: [{
+        address: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        zip: {
+            type: String,
+        },
+        landmark: {
+            type: String,
+        }
+
+    }],
     accountType: {
         type: String,
         enum: ['user', 'admin'],
@@ -33,6 +51,24 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    notifications: [{
+        title: {
+            type: String,
+        },
+        message: {
+            type: String,
+        },
+        isRead: {
+            type: Boolean,
+            default: false
+        },
+        createdAt: {
+            type: Number,
+        },
+        redirectUrl: {
+            type: String,
+        }
+    }],
     orders: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order'

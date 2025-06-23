@@ -8,7 +8,7 @@ const accessToken = (user) => {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: '15m',
+            expiresIn: '2h',
             algorithm: 'HS256',
             issuer: 'clean-bubble',
             audience: user._id.toString()

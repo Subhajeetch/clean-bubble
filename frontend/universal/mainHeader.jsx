@@ -15,7 +15,13 @@ import LoginORprofileButton from "./LoginORprofileButton";
 // cart
 import Cart from "./Cart";
 
+
+// order success ui
+import OrderSuccessUI from "./OrderSuccessUI";
+
 export default function MainHeader() {
+
+
     return (
         <header className="absolute z-50 w-full top-0 left-0 h-16 px-4">
             <div className="w-full h-16 flex items-center justify-between  max-w-[1200px] mx-auto">
@@ -58,8 +64,9 @@ export default function MainHeader() {
                 <div className="flex items-center gap-3">
                     <Cart />
 
-                    < LoginORprofileButton />
+                    <LoginORprofileButton />
                 </div>
+                <OrderSuccessUI />
             </div>
         </header>
     );

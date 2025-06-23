@@ -17,6 +17,9 @@ import { SheetProvider } from '@/context/SheetContext';
 // login tabs provider
 import { LoginProvider } from '@/context/LoginContext';
 
+// order success provider
+import { OrderSuccessProvider } from '@/context/OrderSuccessContext';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -43,20 +46,22 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <LoginProvider>
-            <CartProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                <SheetProvider>
-                  <MainHeader />
-                  {children}
-                  <Toaster />
-                </SheetProvider>
-              </ThemeProvider>
-            </CartProvider>
+            <OrderSuccessProvider>
+              <CartProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <SheetProvider>
+                    <MainHeader />
+                    {children}
+                    <Toaster />
+                  </SheetProvider>
+                </ThemeProvider>
+              </CartProvider>
+            </OrderSuccessProvider>
           </LoginProvider>
         </AuthProvider>
       </body>

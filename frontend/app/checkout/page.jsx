@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
+// backend URL
+import cred from "@/mine.config";
+
 import "./shakeEffect.css"
 
 import {
@@ -26,6 +29,10 @@ import axios from "axios";
 import { useLogin } from "@/context/LoginContext";
 
 
+// order success
+import { useOrderSuccess } from "@/context/OrderSuccessContext";
+
+
 
 import { ShoppingCart, Angry, Trash2, Cat } from "lucide-react";
 
@@ -39,6 +46,8 @@ const CheckoutPage = () => {
     const [addressSuggestions, setAddressSuggestions] = useState([]);
     const [isAddressFocused, setIsAddressFocused] = useState(false);
     const [loadingAddress, setLoadingAddress] = useState(false);
+
+    const { openOrderSuccess } = useOrderSuccess();
 
     const [form, setForm] = useState({
         fullName: "" || user?.fullName || "",
@@ -110,6 +119,9 @@ const CheckoutPage = () => {
         toast.success("Address selected!");
     };
 
+
+
+    // create order function
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -121,14 +133,55 @@ const CheckoutPage = () => {
             return toast.error("Address must be in Pakistan.");
         }
 
-        setLoading(true);
-        setTimeout(() => {
+        try {
+            setLoading(true);
+            const response = await axios.post(`${cred.backendURL}/api/order/create`, {
+                products: cartItems,
+                name: form.fullName,
+                totalItems: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+                netAmount: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+                discountPercent: discountPercent,
+                totalAmount: discountedTotal,
+                user: user,
+                phone: form.phone,
+                shippingAddress: {
+                    address: form.address,
+                    city: form.city,
+                    state: form.state,
+                    zip: form.zip,
+                    landmark: form.landmark,
+                },
+                paymentMethod: 'cod',
+            },
+                {
+                    withCredentials: true
+                });
+
+
+            if (!response.data.success) {
+                setLoading(false);
+                toast.error("Failed to place order. Please try again.");
+            }
+
+            // Clear cart after successful order
+            // for (const item of cartItems) {
+            //     await removeFromCart(item.id);
+            // }
+
+            console.log("Order response:", response.data);
+
+            if (response.data.success) {
+                setLoading(false);
+                openOrderSuccess();
+                toast.success("Order placed successfully!");
+            } else {
+                console.log("Order response:", response.data);
+            }
+        } catch (error) {
+            console.error("Error placing order:", error);
             setLoading(false);
-            toast.success("🎉 Order placed successfully!");
-            setTimeout(() => {
-                router.push("/");
-            }, 1500);
-        }, 1000);
+            toast.error("Failed to place order. Please try again.");
+        }
     };
 
 
