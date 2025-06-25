@@ -20,6 +20,9 @@ import { LoginProvider } from '@/context/LoginContext';
 // order success provider
 import { OrderSuccessProvider } from '@/context/OrderSuccessContext';
 
+// notification context
+import { NotificationProvider } from "@/context/NotificationsContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,22 +49,24 @@ export default function RootLayout({ children }) {
       >
         <AuthProvider>
           <LoginProvider>
-            <OrderSuccessProvider>
-              <CartProvider>
-                <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-                  disableTransitionOnChange
-                >
-                  <SheetProvider>
-                    <MainHeader />
-                    {children}
-                    <Toaster />
-                  </SheetProvider>
-                </ThemeProvider>
-              </CartProvider>
-            </OrderSuccessProvider>
+            <NotificationProvider>
+              <OrderSuccessProvider>
+                <CartProvider>
+                  <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                  >
+                    <SheetProvider>
+                      <MainHeader />
+                      {children}
+                      <Toaster />
+                    </SheetProvider>
+                  </ThemeProvider>
+                </CartProvider>
+              </OrderSuccessProvider>
+            </NotificationProvider>
           </LoginProvider>
         </AuthProvider>
       </body>

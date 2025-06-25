@@ -9,6 +9,10 @@ const logout = require('./auth/logout');
 
 // order routes
 const createOrder = require('./orders/createOrder');
+const getOrders = require('./orders/getOrders');
+
+// notifications routes
+const markRead = require('./notifis/markRead');
 
 
 
@@ -19,5 +23,9 @@ router.use('/auth', logout);
 
 // order routes
 router.use('/order', createOrder);
+router.use('/get', getOrders);
+
+// notifications
+router.use('/notifs', markRead)
 
 module.exports = router;

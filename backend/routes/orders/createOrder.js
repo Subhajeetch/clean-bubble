@@ -109,7 +109,7 @@ router.post('/create', async (req, res) => {
                     message: `Your order for ${totalItems} items has been placed successfully.`,
                     isRead: false,
                     createdAt: Date.now(),
-                    redirectUrl: `/orders/${newOrder._id}`
+                    redirectUrl: `/order/${newOrder._id}`
                 }
             }
         }, { new: true });

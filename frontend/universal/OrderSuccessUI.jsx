@@ -13,11 +13,12 @@ import { useOrderSuccess } from "@/context/OrderSuccessContext";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
-
+import { useRouter } from "next/navigation";
 import { Cat } from "lucide-react";
 
 export default function OrderSuccessUI() {
     const { isOrderSuccessOpen, closeOrderSuccess, setOrderSuccessState } = useOrderSuccess();
+    const router = useRouter();
 
     const handleOrderSuccessOpen = (open) => {
         setOrderSuccessState(open);
@@ -45,6 +46,11 @@ export default function OrderSuccessUI() {
         };
     }, [isOrderSuccessOpen]);
 
+    const handleGoToOrders = () => {
+        router.push('/profile?tab=orders')
+        closeOrderSuccess()
+    }
+
     return (
         <Dialog open={isOrderSuccessOpen} onOpenChange={handleOrderSuccessOpen}>
             <DialogTrigger className="hidden">
@@ -62,7 +68,9 @@ export default function OrderSuccessUI() {
                     </DialogDescription>
                 </DialogHeader>
 
-                <Button>Go to Orders</Button>
+                <Button
+                    onClick={handleGoToOrders}
+                >Go to Orders</Button>
             </DialogContent>
         </Dialog>
     );

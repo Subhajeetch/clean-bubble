@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserRoundPen, Bell, Package, LogOut } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useState } from "react";
 
 import "./styleForLogOutLoading.css"
 
@@ -30,12 +31,20 @@ import useAuthStore from "@/AuthStore/userStore";
 // login tabs provider
 import { useLogin } from "@/context/LoginContext";
 
+// notification
+import { useNotification } from "@/context/NotificationsContext";
+
+
 
 export default function LoginORprofileButton() {
     // context
     const { isLoginOpen, closeLogin, setLoginState } = useLogin();
 
+    const [popoverOpen, setPopoverOpen] = useState(false);
+
     const { user, logout, isAuthenticated, setLoading, isLoading } = useAuthStore();
+    const { setNotificationState, unreadNotifications, haveUnreadNotifications } = useNotification();
+
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -52,10 +61,20 @@ export default function LoginORprofileButton() {
     };
 
 
-    // toggle dialog
+    // toggle login dialog
     const handleLoginOpen = (open) => {
         setLoginState(open);
     };
+
+    // open notifiacton sheet
+    const handleNotificationOpen = () => {
+        setNotificationState(true)
+    }
+
+
+    const hh = () => {
+        console.log(user)
+    }
 
 
     return (
@@ -71,15 +90,18 @@ export default function LoginORprofileButton() {
                 </svg>
             </div>
         ) : user && isAuthenticated ? (
-            <Popover>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <PopoverTrigger>
-                    <div className="h-8 w-8 rounded-full bg-[#321069] flex justify-center items-center">
+                    <div className="h-8 w-8 rounded-full bg-[#321069] flex justify-center items-center relative">
                         <span className="font-semibold">{user.fullName.charAt(0).toUpperCase()}</span>
+                        {haveUnreadNotifications && (
+                            <span className="h-2 w-2 rounded-full bg-red-700 absolute bottom-0 left-0"></span>
+                        )}
                     </div>
                 </PopoverTrigger>
                 <PopoverContent className="flex flex-col gap-3 mr-2 p-2 pb-4">
                     <div className="flex gap-2 p-2">
-                        <div className="h-12 w-12 rounded-full bg-[#321069] flex justify-center items-center"><span className="text-2xl font-semibold">{user.fullName.charAt(0).toUpperCase()}</span></div>
+                        <div className="h-12 w-12 rounded-full bg-[#321069] flex justify-center items-center" onClick={hh}><span className="text-2xl font-semibold">{user.fullName.charAt(0).toUpperCase()}</span></div>
                         <div className="flex flex-col max-w-[180px]">
                             <span className="font-semibold truncate">{user.fullName}</span>
                             <span className="text-xs text-dimmer-foreground truncate">{user.email}</span>
@@ -89,15 +111,24 @@ export default function LoginORprofileButton() {
                     <div className="bg-muted h-1 rounded-full mx-4"></div>
 
                     <div className="flex flex-col gap-2">
-                        <Link className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" href="#">
+                        <Link className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" href="/profile" onClick={() => setPopoverOpen(false)}>
                             <UserRoundPen /> Profile
                         </Link>
 
-                        <Link className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" href="#">
-                            <Bell /> Notifications
-                        </Link>
+                        <div className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" onClick={handleNotificationOpen}>
+                            <span className="relative">
+                                <Bell />
+                                {haveUnreadNotifications && (
+                                    <span className="absolute top-[-7px] right-[-4px] h-5 w-5  bg-amber-400 rounded-full p-1 text-xs flex items-center justify-center font-semibold">
+                                        {unreadNotifications}
+                                    </span>
+                                )}
 
-                        <Link className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" href="#">
+                            </span>
+                            Notifications
+                        </div>
+
+                        <Link className="px-6 py-4 rounded-full bg-background flex gap-3 hover:bg-dimmer-background" href="/profile?tab=orders" onClick={() => setPopoverOpen(false)}>
                             <Package />
                             Orders
                         </Link>

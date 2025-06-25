@@ -234,23 +234,7 @@ const CheckoutPage = () => {
 
 
     return (
-        <main className="min-h-screen flex flex-col max-w-[1200px] mx-auto px-4">
-
-
-            <div className="flex items-center justify-center relative h-30 md:h-40 cursor-pointer z-20"
-                onClick={() => router.push("/")}
-            >
-                <div className="w-60 h-60 md:w-80 md:h-80 rounded-full border-2 border-muted  flex items-center justify-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                    onClick={() => router.push("/")}
-                >
-                    <img
-                        src="/clean-bubble-logo.png"
-                        alt="Clean Bubble Logo"
-                        className="w-16 h-16 mt-22 cursor-pointer"
-                        onClick={() => router.push("/")}
-                    />
-                </div>
-            </div>
+        <main className="min-h-screen flex flex-col max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">
 
             <h1 className="text-4xl font-bold mb-16 mt-4 flex gap-4 items-center"><ShoppingCart style={{ width: 36, height: 36 }} /> Checkout</h1>
 
