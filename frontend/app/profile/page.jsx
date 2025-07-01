@@ -6,6 +6,9 @@ import {
     Cat,
     UserRoundPen,
     Bell,
+    ShieldCheck,
+    Trash2,
+    Info
 } from "lucide-react";
 import "../checkout/shakeEffect.css";
 import { useLogin } from "@/context/LoginContext";
@@ -30,6 +33,10 @@ import { useNotification } from "@/context/NotificationsContext";
 
 // backend url
 import cred from "@/mine.config";
+
+// sections
+import EditProfile from "./EditProfile";
+import ChangePassword from "./ChangePassword";
 
 const ProfilePage = () => {
     const { user, isLoading } = useAuthStore();
@@ -224,16 +231,7 @@ const ProfilePage = () => {
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>Edit Profile</DialogTitle>
-                            <DialogDescription>
-                                Update your profile information.
-                            </DialogDescription>
-                        </DialogHeader>
-                        {/* Add form or inputs for editing profile here */}
-                        <p className="text-sm text-muted-foreground">
-                            This feature is under development.
-                        </p>
+                        <EditProfile />
                     </DialogContent>
                 </Dialog>
 
@@ -302,6 +300,52 @@ const ProfilePage = () => {
                             ) : (
                                 <p className="text-muted-foreground">No address saved.</p>
                             )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 className="text-xl font-semibold mb-2">
+                            Danger
+                        </h2>
+
+                        <div className="flex flex-col gap-3">
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button className=" w-fit">
+                                        <ShieldCheck className="mr-1" />
+                                        Change Password
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+
+                                    <ChangePassword />
+
+                                </DialogContent>
+                            </Dialog>
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button className="w-fit bg-amber-700 text-black hover:bg-amber-800">
+                                        <Trash2 className="mr-1" />
+                                        Delete Account
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Delete Your Account</DialogTitle>
+                                        <DialogDescription className="flex items-center gap-2 text-red-500 justify-center">
+                                            <Info />
+                                            This action cannot be undone!!!
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    {/* Add form or inputs for editing profile here */}
+                                    <p className="text-sm text-muted-foreground">
+                                        This feature is under development.
+                                    </p>
+                                </DialogContent>
+                            </Dialog>
+
                         </div>
                     </div>
                 </TabsContent>

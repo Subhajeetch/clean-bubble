@@ -75,7 +75,7 @@ const Notifications = () => {
                 if (idx !== -1) user.notifications[idx].isRead = true;
             }
         } catch (e) {
-            console.log(e)
+            // console.log(e)
             toast.error("Failed to mark as read.");
         }
         setMarking((prev) => ({ ...prev, [notifId]: false }));

@@ -165,8 +165,8 @@ const CheckoutPage = () => {
 
             // Clear cart after successful order
             // for (const item of cartItems) {
-            //     await removeFromCart(item.id);
-            // }
+            //      await removeFromCart(item.id);
+            //  }
 
             console.log("Order response:", response.data);
 

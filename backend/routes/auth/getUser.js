@@ -11,8 +11,6 @@ router.get('/get/user', async (req, res) => {
         const accessToken = req.cookies.accessToken;
         const refreshToken = req.cookies.refreshToken;
 
-        // console.log("access", accessToken)
-        // console.log("refresh", refreshToken)
 
         if (!accessToken && !refreshToken) {
             return res.status(401).json({
@@ -38,20 +36,6 @@ router.get('/get/user', async (req, res) => {
         if (!decodedUser && refreshToken) {
             try {
                 decodedUser = await verify.refreshToken(refreshToken);
-                console.log("decoded", decodedUser)
-                if (decodedUser) {
-                    const tempUser = {
-                        _id: decodedUser.sub,
-                        email: decodedUser.email
-                    }
-                    newAccessToken = await generate.accessToken(tempUser);
-                    res.cookie('accessToken', newAccessToken, {
-                        httpOnly: true,
-                        secure: true,
-                        sameSite: 'none',
-                        maxAge: 15 * 60 * 1000 // 15 minutes
-                    });
-                }
             } catch (error) {
                 console.error("Refresh token invalid:", error);
                 return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -67,11 +51,26 @@ router.get('/get/user', async (req, res) => {
         }
 
         // Find user by email from decoded token
-        const user = await User.findOne({ email: decodedUser.email }).lean();
+        const user = await User.findOne({ _id: decodedUser.sub }).lean();
         if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "User not found"
+            });
+        }
+
+
+        if (decodedUser) {
+            const tempUser = {
+                _id: decodedUser.sub,
+                email: user.email
+            }
+            newAccessToken = await generate.accessToken(tempUser);
+            res.cookie('accessToken', newAccessToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 15 * 60 * 1000 // 15 minutes
             });
         }
 

@@ -14,6 +14,9 @@ const getOrders = require('./orders/getOrders');
 // notifications routes
 const markRead = require('./notifis/markRead');
 
+// profile
+const editProfile = require("./profile/editProfile");
+const changePass = require("./profile/changePass");
 
 
 router.use('/auth', signup);
@@ -26,6 +29,10 @@ router.use('/order', createOrder);
 router.use('/get', getOrders);
 
 // notifications
-router.use('/notifs', markRead)
+router.use('/notifs', markRead);
+
+// profile
+router.use("/edit", editProfile);
+router.use("/change", changePass);
 
 module.exports = router;
