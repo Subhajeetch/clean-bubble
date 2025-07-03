@@ -11,8 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 // backend URL
 import cred from "@/mine.config";
 
-import "./shakeEffect.css"
-
 import {
     Select,
     SelectContent,
@@ -39,7 +37,7 @@ import { ShoppingCart, Angry, Trash2, Cat } from "lucide-react";
 const CheckoutPage = () => {
     const { openLogin } = useLogin();
 
-    const { user, isAuthenticated, isLoading } = useAuthStore();
+    const { user, isAuthenticated, isLoading, setUser } = useAuthStore();
     const router = useRouter();
     const { cartItems, addToCart, removeFromCart, deleteFromCart } = useCart();
     const [loading, setLoading] = useState(false);
@@ -164,18 +162,17 @@ const CheckoutPage = () => {
             }
 
             // Clear cart after successful order
-            // for (const item of cartItems) {
-            //      await removeFromCart(item.id);
-            //  }
+            for (const item of cartItems) {
+                await removeFromCart(item.id);
+            }
 
-            console.log("Order response:", response.data);
+            //console.log("Order response:", response.data);
 
             if (response.data.success) {
                 setLoading(false);
                 openOrderSuccess();
+                setUser(response.data.user)
                 toast.success("Order placed successfully!");
-            } else {
-                console.log("Order response:", response.data);
             }
         } catch (error) {
             console.error("Error placing order:", error);

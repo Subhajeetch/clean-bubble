@@ -102,7 +102,7 @@ router.post('/create', async (req, res) => {
         }, { new: true });
 
         // add notification to the user
-        await User.findByIdAndUpdate(decodedUser.sub, {
+        const updatedUser = await User.findByIdAndUpdate(decodedUser.sub, {
             $push: {
                 notifications: {
                     title: 'Order Placed',
@@ -112,13 +112,14 @@ router.post('/create', async (req, res) => {
                     redirectUrl: `/order/${newOrder._id}`
                 }
             }
-        }, { new: true });
+        }, { new: true, select: "-password" }).select("-password");
 
         // send response
         res.status(201).json({
             success: true,
             message: 'Order created successfully!',
-            order: newOrder
+            order: newOrder,
+            user: updatedUser
         });
 
 

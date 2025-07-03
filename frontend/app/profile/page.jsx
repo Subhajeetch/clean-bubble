@@ -10,7 +10,6 @@ import {
     Trash2,
     Info
 } from "lucide-react";
-import "../checkout/shakeEffect.css";
 import { useLogin } from "@/context/LoginContext";
 import {
     Dialog,
@@ -37,6 +36,7 @@ import cred from "@/mine.config";
 // sections
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
+import Link from "next/link";
 
 const ProfilePage = () => {
     const { user, isLoading } = useAuthStore();
@@ -371,7 +371,8 @@ const ProfilePage = () => {
                                                 {groupedOrders[date].map(order => {
                                                     const statusColors = getOrderStatusColor(order.status);
                                                     return (
-                                                        <div
+                                                        <Link
+                                                            href={`/order/${order._id}`}
                                                             key={order._id}
                                                             className="flex gap-3 hover:bg-muted rounded-md p-2 cursor-pointer"
                                                         >
@@ -403,7 +404,7 @@ const ProfilePage = () => {
                                                                 </p>
                                                                 <p className="mt-2">₹{order.totalAmount} PKR</p>
                                                             </div>
-                                                        </div>
+                                                        </Link>
                                                     );
                                                 })}
                                             </div>

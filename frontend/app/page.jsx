@@ -2,6 +2,8 @@ import { CircleCheck, Heart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+import RatingOverview from './UIforRating';
+
 // add to cart button
 import AddToCartButton from '@/components/AddToCartButton';
 
@@ -214,7 +216,8 @@ export default function App() {
         </div>
       </section>
 
-      <div className='w-full h-40'>
+      <div className='w-full mt-12'>
+        <RatingOverview />
 
       </div>
     </main >

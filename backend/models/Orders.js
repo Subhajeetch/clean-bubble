@@ -1,4 +1,3 @@
-const { sign } = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
@@ -82,7 +81,6 @@ const orderSchema = new mongoose.Schema({
         landmark: {
             type: String,
         }
-
     }],
     paymentMethod: {
         type: String,
@@ -93,6 +91,15 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Review'
     }],
+    adminNote: {
+        type: String
+    },
+    cancelNote: {
+        type: String
+    },
+    deliveryExpectedDate: {
+        type: Number
+    }
 }, {
     timestamps: true
 });

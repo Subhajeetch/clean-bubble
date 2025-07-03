@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     text: {
         type: String,
     },
@@ -10,10 +18,6 @@ const reviewSchema = new mongoose.Schema({
         min: 1,
         max: 5
     },
-    images: [{
-        type: String,
-        default: null
-    }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -22,7 +26,17 @@ const reviewSchema = new mongoose.Schema({
     order: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
-        required: true
+    },
+    adminReply: {
+        name: {
+            type: String
+        },
+        text: {
+            type: String
+        },
+        date: {
+            type: Number
+        }
     }
 }, {
     timestamps: true
