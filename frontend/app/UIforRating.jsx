@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import WriteReview from "./WriteReview";
 
 import cred from "@/mine.config";
+import ReviewList from "./UIforReviewList";
 
 const RatingOverview = () => {
     const { user, isAuthenticated } = useAuthStore();
@@ -88,15 +89,24 @@ const RatingOverview = () => {
 
     if (loading) {
         return (
-            <div className="w-full mb-40 text-center py-10 text-muted-foreground text-sm">
-                Loading rating overview...
+            <div className="w-full my-10 flex items-center justify-center gap-3">
+                <svg className='idkgg' viewBox='25 25 50 50'>
+                    <circle
+                        className='gayxx'
+                        r='20'
+                        cy='50'
+                        cx='50'
+                    ></circle>
+                </svg>
+
+                <p>Loading Rating overview...</p>
             </div>
         );
     }
 
     return (
         <>
-            <div className="w-full md:flex md:gap-3 mb-40">
+            <div className="w-full md:flex md:gap-3 mb-10">
                 <div className="text-center mb-2 md:w-[350px]">
                     <h3 className="text-center text-2xl font-semibold mb-3"> Rating overview</h3>
                     <p className="text-4xl font-bold">
@@ -176,6 +186,12 @@ const RatingOverview = () => {
                             );
                         })}
                 </div>
+            </div>
+
+
+
+            <div>
+                <ReviewList />
             </div>
         </>
     );

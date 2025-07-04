@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MainHeader from "../universal/mainHeader";
+import MainFooter from "@/universal/mainFooter";
 import { ThemeProvider } from "@/components/theme-provider";
 // toaster
 import { Toaster } from "@/components/ui/sonner";
@@ -61,7 +62,9 @@ export default function RootLayout({ children }) {
                     <SheetProvider>
                       <MainHeader />
                       {children}
+
                       <Toaster />
+                      <MainFooter />
                     </SheetProvider>
                   </ThemeProvider>
                 </CartProvider>

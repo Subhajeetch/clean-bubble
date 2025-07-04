@@ -38,30 +38,39 @@ export default function MainHeader() {
                                 <DropdownMenuLabel>Nevigation Menu</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
-                                    <Link href="#" className="font-semibold">
+                                    <Link href="/" className="font-semibold">
+                                        Home
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Link href="/about" className="font-semibold">
                                         Our Story
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Link href="#" className="font-semibold">
+                                    <Link href="/contact" className="font-semibold">
                                         Contact
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Link href="#" className="font-semibold">
+                                    <Link href="/terms" className="font-semibold">
                                         Terms
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <Link href="#" className="font-semibold hidden md:block">
+                        <Link href="/" className="font-semibold hidden lg:block">
+                            Home
+                        </Link>
+
+                        <Link href="/about" className="font-semibold hidden md:block">
                             Our Story
                         </Link>
-                        <Link href="#" className="font-semibold hidden md:block">
+                        <Link href="/contact" className="font-semibold hidden md:block">
                             Contact
                         </Link>
-                        <Link href="#" className="font-semibold hidden md:block">
+                        <Link href="terms" className="font-semibold hidden md:block">
                             Terms
                         </Link>
                     </div>

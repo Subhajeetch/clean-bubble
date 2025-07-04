@@ -24,6 +24,7 @@ const changePass = require("./profile/changePass");
 const getRatingsData = require('./ratings/ratingData');
 const createReview = require('./ratings/createReview');
 const getOrderReview = require("./ratings/getOrderReview");
+const getReviews = require('./ratings/getReviews');
 
 
 
@@ -49,5 +50,6 @@ router.use("/change", changePass);
 router.use("/get", getRatingsData);
 router.use('/create', createReview);
 router.use('/get', getOrderReview);
+router.use('/get', getReviews);
 
 module.exports = router;
