@@ -9,6 +9,10 @@ const routes = require('../routes');
 const app = express();
 dotenv.config();
 
+// ✅ Set Mongoose-specific options globally
+mongoose.set('bufferCommands', false);
+mongoose.set('bufferMaxEntries', 0);
+
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
@@ -32,15 +36,14 @@ const connectToDatabase = async () => {
     }
 
     try {
+        // ✅ Only pass MongoDB driver options here
         await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            bufferCommands: false,        // Disable mongoose buffering
-            bufferMaxEntries: 0,          // Disable mongoose buffering  
-            maxPoolSize: 10,              // Maintain up to 10 socket connections
-            serverSelectionTimeoutMS: 5000, // Keep trying for 5 seconds
-            socketTimeoutMS: 45000,       // Close sockets after 45 seconds
-            family: 4                     // Use IPv4
+            maxPoolSize: 10,              // MongoDB driver option
+            serverSelectionTimeoutMS: 5000, // MongoDB driver option  
+            socketTimeoutMS: 45000,       // MongoDB driver option
+            family: 4                     // MongoDB driver option
         });
 
         isConnected = true;
@@ -50,7 +53,6 @@ const connectToDatabase = async () => {
         throw error;
     }
 };
-
 
 app.use(async (req, res, next) => {
     try {
@@ -68,5 +70,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', routes);
+
 
 module.exports = app;
