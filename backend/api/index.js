@@ -4,18 +4,13 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+// Import your routes
 const routes = require('../routes');
 
 const app = express();
 dotenv.config();
-
-// ✅ Set Mongoose-specific options globally
-mongoose.set('bufferCommands', false);
-mongoose.set('bufferMaxEntries', 0);
-
-// Middleware
-app.use(cookieParser());
 app.use(express.json());
+app.use(cookieParser());
 
 // CORS configuration
 const allowedOrigins = [
@@ -28,41 +23,16 @@ app.use(cors({
     credentials: true
 }));
 
-let isConnected = false;
-
-const connectToDatabase = async () => {
-    if (isConnected) {
-        return;
-    }
-
+const connectDB = async () => {
     try {
-        // ✅ Only pass MongoDB driver options here
-        await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            maxPoolSize: 10,              // MongoDB driver option
-            serverSelectionTimeoutMS: 5000, // MongoDB driver option  
-            socketTimeoutMS: 45000,       // MongoDB driver option
-            family: 4                     // MongoDB driver option
-        });
-
-        isConnected = true;
-        console.log('Connected to MongoDB');
+        await mongoose.connect(process.env.MONGO_URI)
+        console.log("Connect to MongoDB successfully")
     } catch (error) {
-        console.error('MongoDB connection error:', error);
-        throw error;
+        console.log("Connect failed " + error.message)
     }
-};
+}
+connectDB();
 
-app.use(async (req, res, next) => {
-    try {
-        await connectToDatabase();
-        next();
-    } catch (error) {
-        console.error('Database connection failed:', error);
-        res.status(500).json({ error: 'Database connection failed' });
-    }
-});
 
 // Routes
 app.get('/', (req, res) => {
@@ -71,5 +41,8 @@ app.get('/', (req, res) => {
 
 app.use('/api', routes);
 
+const PORT = process.env.PORT || 9000;
 
-module.exports = app;
+app.listen(PORT, () => {
+    console.log("Server is running on port " + PORT);
+});
