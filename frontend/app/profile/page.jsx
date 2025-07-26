@@ -25,7 +25,7 @@ import {
     TabsList,
     TabsTrigger
 } from "@/components/ui/tabs";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useNotification } from "@/context/NotificationsContext";
@@ -37,6 +37,7 @@ import cred from "@/mine.config";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import Link from "next/link";
+
 
 const ProfilePage = () => {
     const { user, isLoading } = useAuthStore();
@@ -82,6 +83,7 @@ const ProfilePage = () => {
                 )
         }
     }, [activeTab, ordersFetched, user]);
+
 
 
     const getOrderStatusColor = (status) => {
@@ -181,6 +183,12 @@ const ProfilePage = () => {
         setNotificationState(true)
     }
 
+    // go to admin panel if user is admin
+    const handleGoToAdminPanel = () => {
+        if (user.accountType !== "admin") return;
+        router.push("/admin/overview")
+    }
+
 
     if (isLoading) {
         return (
@@ -248,6 +256,19 @@ const ProfilePage = () => {
                     Notifications
                 </Button>
             </div>
+
+            {user.accountType === "admin" && (
+                <Button
+                    onClick={handleGoToAdminPanel}
+                    className="w-fit animate-shake-twice mt-4 relative overflow-hidden px-6 py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-purple-300 active:scale-95"
+                >
+                    <span className="relative z-10">Admin Panel</span>
+                    <span
+                        className="absolute inset-0 z-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-lg opacity-20 scale-110"
+                        aria-hidden="true"
+                    />
+                </Button>
+            )}
 
             <Tabs
                 defaultValue={initialTab}

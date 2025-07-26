@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { ShoppingCart, ShoppingBag, Trash2, Angry } from 'lucide-react';
 import { toast } from "sonner";
@@ -18,7 +18,7 @@ import { useSheet } from '@/context/SheetContext';
 import { useRouter } from 'next/navigation';
 
 const Cart = () => {
-    const { cartItems, loading, addToCart, removeFromCart, deleteFromCart } = useCart();
+    const { cartItems, loading, addToCart, removeFromCart, deleteFromCart, storeConfig } = useCart();
     const { isOpen, closeSheet, setSheetState } = useSheet();
 
     const router = useRouter();
@@ -27,9 +27,6 @@ const Cart = () => {
         closeSheet();
         router.push('/checkout');
     };
-
-
-
 
     const handleSheetToggle = (open) => {
         setSheetState(open);
@@ -59,8 +56,29 @@ const Cart = () => {
         }
     };
 
+    // Calculate total quantity
     const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-    const total = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+    // Calculate subtotal
+    const subtotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
+
+    // Calculate discount
+    let discount = 0;
+    if (cartCount >= storeConfig.bulkQuantityThreshold && storeConfig.bulkDiscountPercent > 0) {
+        discount = subtotal * (storeConfig.bulkDiscountPercent / 100);
+    } else if (storeConfig.discountPercent > 0) {
+        discount = subtotal * (storeConfig.discountPercent / 100);
+    }
+
+    let disPercentForHtml = 0;
+    if (cartCount >= storeConfig.bulkQuantityThreshold && storeConfig.bulkDiscountPercent > 0) {
+        disPercentForHtml = storeConfig.bulkDiscountPercent;
+    } else if (storeConfig.discountPercent > 0) {
+        disPercentForHtml = storeConfig.discountPercent;
+    }
+
+    // Calculate total after discount
+    const total = subtotal - discount;
 
     return (
         <Sheet open={isOpen} onOpenChange={handleSheetToggle}>
@@ -109,8 +127,8 @@ const Cart = () => {
                                                     <Trash2 size={18} />
                                                 </button>
                                             </div>
-                                            <div className="flex items-center justify-between mt-1">
-                                                <p className="text-md font-semibold mt-2">₹{item.price.toFixed(2)} PKR</p>
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between mt-1">
+                                                <p className="text-md font-semibold mt-2">Rs.  {item.price.toFixed(2)} PKR</p>
                                                 <div className="flex items-center gap-3 mt-2">
                                                     <Button variant="outline" size="sm" className="rounded-full px-[11px] py-1" onClick={() => handleRemove(item.id)}>-</Button>
                                                     <span className="text-md font-semibold">{item.quantity}</span>
@@ -134,26 +152,24 @@ const Cart = () => {
                         <div>
                             <div className="flex items-center justify-between p-2">
                                 <p>Items</p>
-                                <p>₹ {total.toFixed(2)}</p>
+                                <p>Rs.   {subtotal.toFixed(2)}</p>
                             </div>
 
                             <div className="flex items-center justify-between p-2">
                                 <p>Discounts</p>
-                                <p>- ₹ 0.00</p>
+                                <p>Rs.   {discount.toFixed(2)} ({disPercentForHtml}%)</p>
                             </div>
 
                             <div className="h-0.5 w-full bg-muted rounded-full my-2"></div>
 
                             <div className="flex items-center justify-between p-2">
                                 <p>Total</p>
-                                <p>₹ {total.toFixed(2)}</p>
+                                <p>Rs.    {total.toFixed(2)}</p>
                             </div>
                         </div>
 
                         <div className="px-2">
-
                             <Button className={`rounded-full w-full max-w-100 text-md font-semibold p-7
-                            
                             ${loading || cartItems.length === 0 ? 'bg-dimmer-foreground hover:bg-dimmer-foreground cursor-not-allowed' : ''}`}
                                 onClick={() => {
                                     if (cartItems.length === 0) {
@@ -161,9 +177,7 @@ const Cart = () => {
                                         return;
                                     }
                                     handleCheckout();
-                                }
-                                }
-
+                                }}
                             >
                                 {(loading ? (
                                     <div>
@@ -181,7 +195,6 @@ const Cart = () => {
                                 ))}
                                 <span>Checkout</span>
                             </Button>
-
                         </div>
                     </div>
                 </div>

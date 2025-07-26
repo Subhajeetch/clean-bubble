@@ -60,7 +60,6 @@ router.post('/profile', async (req, res) => {
     }
 
     try {
-        // Find & update the user
         const updatedUser = await User.findByIdAndUpdate(
             decodedUser.sub,
             {

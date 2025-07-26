@@ -74,6 +74,14 @@ const OrderPage = ({ params }) => {
         fetchOrder();
     }, [id, user]);
 
+    useEffect(() => {
+        document.title = "Order Info - Clean Bubble";
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute("content", "View detailed information about your order, including products, shipping address, and payment details. Manage your orders easily with Clean Bubble.");
+        }
+    }, []);
+
 
     const getOrderStatusColor = (status) => {
         switch (status) {

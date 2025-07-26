@@ -1,7 +1,4 @@
-import { CircleCheck, Heart } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-
+import cred from '@/mine.config';
 import RatingOverview from './UIforRating';
 
 // add to cart button
@@ -23,7 +20,16 @@ import EmblaButtons from '../components/ProductPicSlideButton';
 import { EmblaProvider } from '../components/EmblaContext'
 
 
-export default function App() {
+export default async function App() {
+
+
+  const res = await fetch(`${cred.backendURL}/api/get/price`, { cache: "no-store" });
+  const config = await res.json();
+
+  const price = config.price || 249.99;
+  const stock = config.stock;
+
+  // console.log(stock);
 
   const OPTIONS = {}
   const SLIDE_COUNT = 5
@@ -34,7 +40,7 @@ export default function App() {
     id: 1,
     image: "/clean-bubble-gallery-2.jpg",
     name: "Foaming Hand Sanitizer",
-    price: 249.99,
+    price: price,
     size: "50ml",
     quantity: 1
   };
@@ -93,9 +99,9 @@ export default function App() {
             </h1>
 
             <div className='flex flex-col lg:items-start lg:justify-start  md:items-center md:justify-center'>
-              <p className="price text-5xl sm:mb-20 lg:mb-20 mb-8">
-                <span itemProp="priceCurrency" content="PKR">₹</span>
-                <span itemProp="price" content="149.99">249.99</span>
+              <p className="price text-4xl sm:mb-20 lg:mb-20 mb-8">
+                <span itemProp="priceCurrency" content="PKR">Rs. </span>
+                <span itemProp="price" content={price}>{price}</span>
                 <span className='ml-2'>PKR</span>
               </p>
 
@@ -104,14 +110,7 @@ export default function App() {
               </p>
 
               <div className="flex flex-col gap-4 mt-8">
-                <div className="flex items-center gap-2">
-                  <AddToCartButton productData={productData} />
-                  <Button variant="outline">
-                    <Heart />
-                  </Button>
-
-                </div>
-                <p></p>
+                <AddToCartButton productData={productData} stock={stock} />
               </div>
             </div>
           </div>

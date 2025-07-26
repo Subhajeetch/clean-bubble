@@ -4,7 +4,6 @@ const Review = require("../../models/Reviews");
 
 router.get('/ratings/data', async (req, res) => {
     try {
-        // Fetch all reviews
         const reviews = await Review.find({ rating: { $gte: 1, $lte: 5 } });
 
         const ratingsCount = reviews.length;

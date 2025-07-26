@@ -1,6 +1,51 @@
 import { Badge } from "@/components/ui/badge";
 import { Briefcase } from "lucide-react";
 
+export const metadata = {
+    title: "Careers - Clean Bubble",
+    description:
+        "Explore opportunities to grow with Clean Bubble, a premium foaming hand sanitizer brand. Join our team and help us make a difference in hygiene and skin care.",
+    keywords: [
+        "Careers",
+        "Jobs",
+        "Clean Bubble",
+        "Hand Sanitizer",
+        "Hygiene",
+        "Skin Care",
+        "Join Our Team"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Careers - Clean Bubble",
+        description:
+            "Explore opportunities to grow with Clean Bubble, a premium foaming hand sanitizer brand. Join our team and help us make a difference in hygiene and skin care.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/careers"
+    },
+};
+
 export default function CareersPage() {
     return (
         <main className="min-h-fit max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">

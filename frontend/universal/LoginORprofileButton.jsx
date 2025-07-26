@@ -103,7 +103,7 @@ export default function LoginORprofileButton() {
                     <div className="flex gap-2 p-2">
                         <div className="h-12 w-12 rounded-full bg-[#321069] flex justify-center items-center" onClick={hh}><span className="text-2xl font-semibold">{user.fullName.charAt(0).toUpperCase()}</span></div>
                         <div className="flex flex-col max-w-[180px]">
-                            <span className="font-semibold truncate">{user.fullName}</span>
+                            <span className="font-semibold truncate capitalize">{user.fullName}</span>
                             <span className="text-xs text-dimmer-foreground truncate">{user.email}</span>
                         </div>
                     </div>

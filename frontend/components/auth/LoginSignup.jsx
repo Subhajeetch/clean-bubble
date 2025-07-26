@@ -18,6 +18,8 @@ import {
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/AuthStore/userStore.js";
 import ForgotPass from "./ForgotPass/ForgotPass";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 // mine config
 import cred from "@/mine.config.js";
@@ -232,7 +234,7 @@ const AuthSection = () => {
 
 
     return (
-        <div className='p-6'>
+        <div className="pt-4">
             <DrawerHeader className='sr-only'>
                 <DrawerTitle>login signup form</DrawerTitle>
                 <DrawerDescription>
@@ -271,11 +273,13 @@ const AuthSection = () => {
                         className='space-y-4 h-[260px]'
                     >
                         <div>
-                            <label className='block text-foreground font-semibold mb-1 text-[14px] ml-0.5'>
+                            <label className='block text-foreground font-semibold mb-1 text-[14px] ml-0.5' htmlFor="email">
                                 Email or Phone
                             </label>
-                            <input
+                            <Input
                                 type='text'
+                                name="email"
+                                id="email"
                                 className='w-full px-3 py-2 outline-none rounded-md bg-muted'
                                 value={loginData.identifier}
                                 placeholder='yourname@example.com'
@@ -289,11 +293,12 @@ const AuthSection = () => {
                             />
                         </div>
                         <div className='relative'>
-                            <label className='block text-foreground font-semibold mb-1 text-[14px] ml-0.5'>
+                            <label className='block text-foreground font-semibold mb-1 text-[14px] ml-0.5' htmlFor="pass">
                                 Password
                             </label>
-                            <input
+                            <Input
                                 type={showPass ? "password" : "text"}
+                                name="pass"
                                 className='w-full px-3 py-2 outline-none rounded-md bg-muted pr-10'
                                 value={loginData.password}
                                 placeholder='paswo..'

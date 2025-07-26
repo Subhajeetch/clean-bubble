@@ -1,6 +1,54 @@
 import { Badge } from "@/components/ui/badge";
 import { FaInstagram, FaTwitter, FaFacebook, FaEnvelope, FaPhone } from "react-icons/fa";
 
+export const metadata = {
+    title: "Contact Us - Clean Bubble",
+    description:
+        "Have a question, feedback, or need support? Reach out to us directly! Clean Bubble is a premium foaming hand sanitizer that kills 99.9% of germs while being gentle on your skin.",
+    keywords: [
+        "Contact Clean Bubble",
+        "Contact Us",
+        "Clean Bubble Support",
+        "Clean Bubble Feedback",
+        "Clean Bubble Questions",
+        "Clean Bubble Email",
+        "Clean Bubble Phone",
+        "Clean Bubble Instagram",
+        "Clean Bubble Twitter",
+        "Clean Bubble Facebook"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Contact Us - Clean Bubble",
+        description:
+            "Have a question, feedback, or need support? Reach out to us directly! Clean Bubble is a premium foaming hand sanitizer that kills 99.9% of germs while being gentle on your skin.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/contact"
+    },
+};
+
 export default function ContactPage() {
     return (
         <main className="min-h-fit max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">
@@ -19,14 +67,12 @@ export default function ContactPage() {
             <div className="space-y-6 border border-[#6200ff] bg-gradient-to-br from-[#792af759] via-[#782bf544] to-[#7521e221] rounded-xl shadow p-6">
                 <div className="flex items-center gap-3">
                     <FaEnvelope className="text-blue-600 text-xl" />
-                    <span className="font-medium text-foreground">Email:</span>
-                    <a href="mailto:cleanbubble.project@gmail.com" className="text-blue-700 underline hover:text-blue-900">
-                        cleanbubble.project@gmail.com
+                    <a href="mailto:cleanbubble4@gmail.com" className="text-blue-700 underline hover:text-blue-900">
+                        cleanbubble4@gmail.com
                     </a>
                 </div>
                 <div className="flex items-center gap-3">
                     <FaPhone className="text-green-600 text-xl" />
-                    <span className="font-medium text-foreground">Phone:</span>
                     <a href="tel:+923001234567" className="text-green-700 underline hover:text-green-900">
                         +92 300 1234567
                     </a>

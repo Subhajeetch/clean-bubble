@@ -196,3 +196,46 @@
   animation: shake-twice 3s infinite;
   display: inline-block;
 }
+
+
+/* from chat gpt */
+/* === Chrome, Edge, Safari (WebKit) === */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.3);
+  border-radius: 10px;
+  background-clip: content-box;
+  border: 1px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(120, 120, 120, 0.5);
+}
+
+/* === Firefox === */
+* {
+  scrollbar-width: thin;
+  /* still "thin" is the thinnest supported */
+  scrollbar-color: rgba(120, 120, 120, 0.3) transparent;
+}
+
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}

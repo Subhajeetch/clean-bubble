@@ -2,8 +2,56 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { CheckCircle, Droplets, Sparkles, Flower, Hand } from "lucide-react";
 
+export const metadata = {
+    title: "Features - Clean Bubble",
+    description:
+        "Discover the unique features of Clean Bubble Foaming Hand Sanitizer. Experience superior hygiene with rich lather, minimal water use, and a calming lavender scent. Perfect for on-the-go cleanliness.",
+    keywords: [
+        "Clean Bubble",
+        "Foaming Hand Sanitizer",
+        "Hand Sanitizer Features",
+        "Rich Lather",
+        "Minimal Water Use",
+        "Lavender Scent",
+        "Germ Protection",
+        "Skin Care",
+        "Alcohol-Based Sanitizer",
+        "Moisturizing Hand Sanitizer",
+        "Premium Hand Sanitizer"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Features - Clean Bubble",
+        description:
+            "Discover the unique features of Clean Bubble Foaming Hand Sanitizer. Experience superior hygiene with rich lather, minimal water use, and a calming lavender scent. Perfect for on-the-go cleanliness.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/features"
+    },
+};
+
 export default function FeaturesPage() {
-    ;
     return (
         <main className="min-h-screen max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">
             <section className="mb-12 text-center">

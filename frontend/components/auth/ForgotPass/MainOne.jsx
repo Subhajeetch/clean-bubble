@@ -16,6 +16,12 @@ import {
     InputOTPSeparator,
     InputOTPSlot
 } from "@/components/ui/input-otp";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+import { DialogClose } from "@/components/ui/dialog";
+
+import cred from "@/mine.config";
 
 const ForgotPasswordFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -24,17 +30,12 @@ const ForgotPasswordFlow = () => {
     const [completedSteps, setCompletedSteps] = useState({});
 
     // Step 1 State
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
 
     // Step 2 State
-    const [userDetails, setUserDetails] = useState(null);
-    const [userInputEmail, setUserInputEmail] = useState("");
-    const [verifyEmailError, setVerifyEmailError] = useState(false);
-
-    // Step 3 State
     const [otp, setOtp] = useState("");
 
-    // Step 4 State
+    // Step 3 State
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passIns, setPassIns] = useState(false);
@@ -51,7 +52,7 @@ const ForgotPasswordFlow = () => {
     const [sevenCher, setSevenCher] = useState(false);
     const [noRandomCher, setNoRandomCher] = useState(true);
 
-    const steps = ["1", "2", "3", "4", "5"];
+    const steps = ["1", "2", "3", "4"];
 
     const markStepCompleted = step => {
         setCompletedSteps(prev => ({ ...prev, [step]: true }));
@@ -61,14 +62,13 @@ const ForgotPasswordFlow = () => {
         try {
             setLoading(true);
             const response = await axios.post(
-                "/api/mantox/fpass/verify-username",
+                `${cred.backendURL}/api/fpass/verify-email`,
                 {
-                    username
+                    email
                 }
             );
 
             if (response.data.success) {
-                setUserDetails(response.data.user);
                 markStepCompleted(1);
                 setCurrentStep(2);
                 toast.success(response.data.message);
@@ -76,7 +76,6 @@ const ForgotPasswordFlow = () => {
                 toast.error(response.data.message);
             }
         } catch (err) {
-            //setError("Invalid username or user not found");
             toast.error(
                 err.response?.data?.message ||
                 err?.message ||
@@ -90,16 +89,12 @@ const ForgotPasswordFlow = () => {
     const handleStep2 = async () => {
         try {
             setLoading(true);
-            const response = await axios.post(
-                "/api/mantox/fpass/verify-email",
-                {
-                    username,
-                    email: `${userDetails.firstHalfEmail}${userInputEmail}${userDetails.secondHalfEmail}`
-                }
-            );
+            const response = await axios.post(`${cred.backendURL}/api/fpass/verify-otp`, {
+                email,
+                otp
+            });
 
             if (response.data.success) {
-                setUserDetails(response.data.user);
                 markStepCompleted(2);
                 setCurrentStep(3);
                 toast.success(response.data.message);
@@ -107,7 +102,6 @@ const ForgotPasswordFlow = () => {
                 toast.error(response.data.message);
             }
         } catch (err) {
-            //setError("Email verification failed");
             toast.error(
                 err.response?.data?.message ||
                 err?.message ||
@@ -120,10 +114,17 @@ const ForgotPasswordFlow = () => {
 
     const handleStep3 = async () => {
         try {
+            if (newPassword !== confirmPassword) {
+                setError("Passwords do not match");
+                toast.error("Passwords do not match");
+                return;
+            }
+
             setLoading(true);
-            const response = await axios.post("/api/mantox/fpass/verify-otp", {
-                username,
-                otp
+            const response = await axios.post(`${cred.backendURL}/api/fpass/change-pass`, {
+                email,
+                newPassword,
+                confirmNewPassword: confirmPassword
             });
 
             if (response.data.success) {
@@ -134,7 +135,6 @@ const ForgotPasswordFlow = () => {
                 toast.error(response.data.message);
             }
         } catch (err) {
-            //  setError("Invalid OTP entered");
             toast.error(
                 err.response?.data?.message ||
                 err?.message ||
@@ -145,51 +145,7 @@ const ForgotPasswordFlow = () => {
         }
     };
 
-    const handleStep4 = async () => {
-        try {
-            if (newPassword !== confirmPassword) {
-                setError("Passwords do not match");
-                return;
-            }
-            setLoading(true);
-            const response = await axios.post("/api/mantox/fpass/change-pass", {
-                username,
-                newPassword,
-                confirmNewPassword: confirmPassword
-            });
-            if (response.data.success) {
-                markStepCompleted(4);
-                setCurrentStep(5);
-                toast.success(response.data.message);
-            } else {
-                //setError(response.data.message);
-                toast.error(response.data.message);
-            }
-        } catch (err) {
-            toast.error(
-                err.response?.data?.message ||
-                err?.message ||
-                "Something went wrong, try again."
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // for step 2
-    const handleEmailChange = e => {
-        const value = e.target.value;
-
-        if (value.includes(" ")) {
-            setVerifyEmailError(true);
-        } else {
-            setVerifyEmailError(false);
-            setUserInputEmail(value);
-        }
-    };
-
-    //for step 4
-
+    //for step 3
     useEffect(() => {
         const password = newPassword;
 
@@ -228,26 +184,31 @@ const ForgotPasswordFlow = () => {
         setPassStrengthText(str);
     }, [passStrength]);
 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const renderStep = () => {
         switch (currentStep) {
             case 1:
                 return (
                     <div className=''>
                         <h2 className='mb-8 mt-3 text-[20px] text-center font-bold'>
-                            Find your account
+                            Enter your email
                         </h2>
-                        <p className='font-semibold ml-1'>Username</p>
-                        <input
-                            type='text'
-                            placeholder='Enter your username'
-                            className='w-full p-2 rounded mb-4 outline-none bg-backgroundtwo'
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
+                        <p className='font-semibold ml-1 mb-2'>Email Address</p>
+                        <Input
+                            type='email'
+                            placeholder='Enter your email address'
+                            className='w-full mb-4 bg-backgroundtwo'
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
-                        <button
+                        <Button
                             onClick={handleStep1}
-                            disabled={loading || !username}
-                            className='bg-main text-white p-2 rounded w-full disabled:bg-[#a53d3d]'
+                            disabled={loading || !email || !isValidEmail(email)}
+                            className='w-full text-background bg-foreground'
                         >
                             {loading ? (
                                 <div className='flex gap-2 justify-center items-center'>
@@ -260,94 +221,26 @@ const ForgotPasswordFlow = () => {
                                         ></circle>
                                     </svg>
                                     <span className='font-bold'>
-                                        Finding your account...
+                                        Verifying email...
                                     </span>
                                 </div>
                             ) : (
                                 <div className='flex gap-2 justify-center items-center'>
                                     <CircleArrowRight />{" "}
-                                    <strong>Continue</strong>
+                                    <strong>Send OTP</strong>
                                 </div>
                             )}
-                        </button>
+                        </Button>
                     </div>
                 );
             case 2:
-                return (
-                    <div className=''>
-                        <h2 className='mb-8 mt-3 text-[20px] text-center font-bold'>
-                            Verify your email
-                        </h2>
-                        <div className='flex items-center gap-2 mb-4 bg-backgroundtwo w-fit p-2 px-3 rounded-xl'>
-                            <img
-                                src={userDetails.profilePicture}
-                                alt='Profile'
-                                className='w-6 h-6 rounded-full'
-                            />
-                            <span className='font-semibold'>
-                                {userDetails.username}
-                            </span>
-                        </div>
-
-                        <p className='text-[14px]'>
-                            Write the{" "}
-                            <strong className='underline'>remaining</strong>{" "}
-                            part of your email
-                        </p>
-                        <div className='flex items-center gap-2 mb-4 mt-1 font-semibold'>
-                            <span>{userDetails.firstHalfEmail}</span>
-                            <input
-                                type='text'
-                                placeholder='********************'
-                                className='w-32 p-1 rounded outline-none bg-backgroundtwo'
-                                value={userInputEmail}
-                                onChange={handleEmailChange}
-                            />
-                            <span>{userDetails.secondHalfEmail}</span>
-                        </div>
-                        {verifyEmailError && (
-                            <p className='text-[14px] text-red-600 mb-1'>
-                                Remaining email can't have spaces
-                            </p>
-                        )}
-                        <button
-                            onClick={handleStep2}
-                            disabled={
-                                loading || !userInputEmail || verifyEmailError
-                            }
-                            className='bg-main text-white p-2 rounded w-full disabled:bg-[#a53d3d]'
-                        >
-                            {loading ? (
-                                <div className='flex gap-2 justify-center items-center'>
-                                    <svg className='idk' viewBox='25 25 50 50'>
-                                        <circle
-                                            className='hmmx'
-                                            r='20'
-                                            cy='50'
-                                            cx='50'
-                                        ></circle>
-                                    </svg>
-                                    <span className='font-bold'>
-                                        Verifying...
-                                    </span>
-                                </div>
-                            ) : (
-                                <div className='flex gap-2 justify-center items-center'>
-                                    <CircleArrowRight />{" "}
-                                    <strong>Continue</strong>
-                                </div>
-                            )}
-                        </button>
-                    </div>
-                );
-            case 3:
                 return (
                     <div className='space-y-4'>
                         <h2 className='mb-8 mt-3 text-[20px] text-center font-bold'>
                             Verify OTP
                         </h2>
                         <p className='text-center'>
-                            We have sent an OTP to the email you verified. If
+                            We have sent an OTP to <strong>{email}</strong>. If
                             you can't find the email, you might wanna check your{" "}
                             <strong className='underline'>Spam Folder</strong>.
                         </p>
@@ -390,10 +283,10 @@ const ForgotPasswordFlow = () => {
                             </InputOTP>
                         </div>
 
-                        <button
-                            onClick={handleStep3}
+                        <Button
+                            onClick={handleStep2}
                             disabled={loading || !otp || otp.length !== 6}
-                            className='bg-main text-white p-2 rounded w-full disabled:bg-[#a53d3d]'
+                            className='w-full bg-foreground text-background'
                         >
                             {loading ? (
                                 <div className='flex gap-2 justify-center items-center'>
@@ -412,13 +305,13 @@ const ForgotPasswordFlow = () => {
                             ) : (
                                 <div className='flex gap-2 justify-center items-center'>
                                     <CircleArrowRight />{" "}
-                                    <strong>Continue</strong>
+                                    <strong>Verify OTP</strong>
                                 </div>
                             )}
-                        </button>
+                        </Button>
                     </div>
                 );
-            case 4:
+            case 3:
                 return (
                     <div className=''>
                         <h2 className='mb-8 mt-3 text-[20px] text-center font-bold'>
@@ -429,28 +322,30 @@ const ForgotPasswordFlow = () => {
                             <label className='block text-foreground font-semibold mb-1 text-[14px] ml-1'>
                                 New Password
                             </label>
-                            <input
-                                type={showPass ? "password" : "text"}
-                                className='w-full px-3 pr-10 py-2 outline-none rounded-md bg-backgroundtwo'
-                                value={newPassword}
-                                placeholder='strong pass...'
-                                onChange={e => setNewPassword(e.target.value)}
-                                onFocus={() => setPassIns(true)}
-                                onBlur={() => setPassIns(false)}
-                                required
-                            />
+                            <div className='relative'>
+                                <Input
+                                    type={showPass ? "password" : "text"}
+                                    className='w-full pr-10 bg-backgroundtwo'
+                                    value={newPassword}
+                                    placeholder='strong pass...'
+                                    onChange={e => setNewPassword(e.target.value)}
+                                    onFocus={() => setPassIns(true)}
+                                    onBlur={() => setPassIns(false)}
+                                    required
+                                />
 
-                            <div
-                                onClick={() => {
-                                    setShowPass(prev => !prev);
-                                }}
-                                className='absolute right-2 top-[33px] cursor-pointer'
-                            >
-                                {showPass ? <Eye /> : <EyeOff />}
+                                <div
+                                    onClick={() => {
+                                        setShowPass(prev => !prev);
+                                    }}
+                                    className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer'
+                                >
+                                    {showPass ? <Eye /> : <EyeOff />}
+                                </div>
                             </div>
 
                             {passIns && (
-                                <div className='absolute p-2 rounded-lg top-[-86px] right-2 h-[118px] bg-[#484848] flex flex-col gap-1'>
+                                <div className='absolute p-2 rounded-lg top-[-86px] right-2 h-[118px] bg-[#484848] flex flex-col gap-1 z-10'>
                                     <p
                                         className={`flex text-[9px] gap-1 ${oneUpperCase
                                             ? "text-foreground"
@@ -601,25 +496,34 @@ const ForgotPasswordFlow = () => {
                             </p>
                         </div>
 
-                        <p className='font-semibold ml-1 mt-4'>
+                        <p className='font-semibold ml-1 mt-4 mb-2'>
                             Confirm New Password
                         </p>
-                        <input
+                        <Input
                             type={showPass ? "password" : "text"}
-                            placeholder='strong pass...'
-                            className='w-full p-2 rounded mb-4 outline-none bg-backgroundtwo'
+                            placeholder='confirm password...'
+                            className='w-full mb-4 bg-backgroundtwo'
                             value={confirmPassword}
                             onChange={e => setConfirmPassword(e.target.value)}
                         />
-                        <button
-                            onClick={handleStep4}
+
+                        {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                            <p className='text-red-500 text-sm mb-2 ml-1'>
+                                Passwords do not match
+                            </p>
+                        )}
+
+                        <Button
+                            onClick={handleStep3}
                             disabled={
                                 loading ||
                                 !newPassword ||
                                 !confirmPassword ||
-                                newPassword !== confirmPassword
+                                newPassword !== confirmPassword ||
+                                passStrength < 5 ||
+                                !noRandomCher
                             }
-                            className='bg-main text-white p-2 rounded w-full disabled:bg-[#a53d3d]'
+                            className='w-full bg-foreground text-background'
                         >
                             {loading ? (
                                 <div className='flex gap-2 justify-center items-center'>
@@ -632,7 +536,7 @@ const ForgotPasswordFlow = () => {
                                         ></circle>
                                     </svg>
                                     <span className='font-bold'>
-                                        Verifying...
+                                        Changing password...
                                     </span>
                                 </div>
                             ) : (
@@ -641,20 +545,33 @@ const ForgotPasswordFlow = () => {
                                     <strong>Change Password</strong>
                                 </div>
                             )}
-                        </button>
+                        </Button>
                     </div>
                 );
-            case 5:
+            case 4:
                 return (
                     <div className='text-center space-y-4 py-14'>
                         <CheckCircle className='w-16 h-16 text-green-500 mx-auto' />
                         <h2 className='text-xl font-bold'>
                             Password Changed Successfully!
                         </h2>
+                        <p className='text-gray-600'>
+                            You can now login with your new password.
+                        </p>
+
+                        <DialogClose className="bg-foreground text-background px-6 py-2 rounded-md font-semibold">
+                            Done
+                        </DialogClose>
                     </div>
                 );
             default:
                 return null;
+        }
+    };
+
+    const handleNext = () => {
+        if (currentStep < 4 && completedSteps[currentStep]) {
+            setCurrentStep(prev => prev + 1);
         }
     };
 
@@ -665,8 +582,8 @@ const ForgotPasswordFlow = () => {
                     <div
                         key={step}
                         className={`flex-1 text-center flex justify-center items-center border-b-2 pb-2 ${index + 1 === currentStep
-                            ? "border-main font-bold"
-                            : "border-foreground"
+                            ? "border-foreground font-bold"
+                            : "border-muted"
                             }`}
                     >
                         <div className='bg-foreground rounded-full text-background px-2'>
@@ -677,22 +594,25 @@ const ForgotPasswordFlow = () => {
             </div>
 
             <div className='flex justify-between mb-4'>
-                <button
+                <Button
+                    variant="ghost"
                     onClick={() => setCurrentStep(p => p - 1)}
                     disabled={currentStep === 1 || loading}
                     className='text-foreground font-bold disabled:text-gray-400 disabled:font-[400]'
                 >
                     Previous
-                </button>
+                </Button>
                 <span className='text-foreground'>
                     Step <strong>{currentStep}</strong> of {steps.length}
                 </span>
-                <button
-                    disabled={!completedSteps[currentStep] || loading}
+                <Button
+                    variant="ghost"
+                    onClick={handleNext}
+                    disabled={!completedSteps[currentStep] || loading || currentStep === 4}
                     className='text-foreground font-bold disabled:text-gray-400 disabled:font-[400]'
                 >
                     Next
-                </button>
+                </Button>
             </div>
 
             {renderStep()}

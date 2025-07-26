@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCart } from "@/context/cartContext";
 import { Input } from "@/components/ui/input";
@@ -26,20 +25,16 @@ import axios from "axios";
 // login tabs provider
 import { useLogin } from "@/context/LoginContext";
 
-
 // order success
 import { useOrderSuccess } from "@/context/OrderSuccessContext";
 
-
-
-import { ShoppingCart, Angry, Trash2, Cat } from "lucide-react";
+import { ShoppingCart, Angry, Trash2, Cat, MapPin, Check } from "lucide-react";
 
 const CheckoutPage = () => {
     const { openLogin } = useLogin();
 
     const { user, isAuthenticated, isLoading, setUser } = useAuthStore();
-    const router = useRouter();
-    const { cartItems, addToCart, removeFromCart, deleteFromCart } = useCart();
+    const { cartItems, addToCart, removeFromCart, deleteFromCart, storeConfig } = useCart();
     const [loading, setLoading] = useState(false);
     const [addressSuggestions, setAddressSuggestions] = useState([]);
     const [isAddressFocused, setIsAddressFocused] = useState(false);
@@ -49,7 +44,7 @@ const CheckoutPage = () => {
 
     const [form, setForm] = useState({
         fullName: "" || user?.fullName || "",
-        phone: "",
+        phone: "" || user?.phone || "",
         address: "",
         city: "",
         state: "",
@@ -59,6 +54,20 @@ const CheckoutPage = () => {
     });
 
     const debounceTimer = useRef(null);
+
+    // Handle selecting saved address
+    const handleSelectSavedAddress = (savedAddress) => {
+        setForm({
+            ...form,
+            address: savedAddress.address,
+            city: savedAddress.city,
+            state: savedAddress.state,
+            zip: savedAddress.zip || "",
+            landmark: savedAddress.landmark || "",
+            isValidLocation: true,
+        });
+        toast.success("Address selected successfully!");
+    };
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -79,13 +88,12 @@ const CheckoutPage = () => {
 
         debounceTimer.current = setTimeout(async () => {
             try {
-                const apiKey = "pk.896ddc676c217bacba2d24b23a8bfe3a";
+                const apiKey = process.env.NEXT_PUBLIC_ADDRESS_API_KEY;
                 const response = await axios.get(
                     `https://api.locationiq.com/v1/autocomplete?key=${apiKey}&q=${form.address}&limit=5&countrycodes=pk&normalizeaddress=1`
                 );
                 setAddressSuggestions(response.data);
             } catch (err) {
-
                 if (err.response && err.response.data.error === "Unable to geocode") {
                     toast.error("Please enter a valid address in Pakistan.");
                 } else if (err.response && err.response.status === 403) {
@@ -104,6 +112,15 @@ const CheckoutPage = () => {
         return () => clearTimeout(debounceTimer.current);
     }, [form.address]);
 
+
+    useEffect(() => {
+        document.title = "Checkout - Clean Bubble";
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute("content", "Complete your purchase securely with Clean Bubble. Enter your shipping details and place your order.");
+        }
+    }, []);
+
     const handleAddressSelect = (item) => {
         setForm({
             ...form,
@@ -116,8 +133,6 @@ const CheckoutPage = () => {
         setAddressSuggestions([]);
         toast.success("Address selected!");
     };
-
-
 
     // create order function
     const handleSubmit = async (e) => {
@@ -137,8 +152,8 @@ const CheckoutPage = () => {
                 products: cartItems,
                 name: form.fullName,
                 totalItems: cartItems.reduce((acc, item) => acc + item.quantity, 0),
-                netAmount: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
-                discountPercent: discountPercent,
+                netAmount: discountedTotal,
+                discountPercent: disPercentForHtml,
                 totalAmount: discountedTotal,
                 user: user,
                 phone: form.phone,
@@ -154,7 +169,6 @@ const CheckoutPage = () => {
                 {
                     withCredentials: true
                 });
-
 
             if (!response.data.success) {
                 setLoading(false);
@@ -181,8 +195,6 @@ const CheckoutPage = () => {
         }
     };
 
-
-
     // cart items edit functions
     const handleAdd = async (item) => {
         try {
@@ -208,27 +220,26 @@ const CheckoutPage = () => {
         }
     };
 
-    const cartTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const cartTotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
     const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
+    let discount = 0;
 
-    function getDiscountedTotal(total, percentage) {
-        if (
-            typeof total !== "number" ||
-            typeof percentage !== "number" ||
-            isNaN(total) ||
-            isNaN(percentage)
-        ) return total;
-
-        if (percentage <= 0 || percentage > 100) return total;
-
-        const discount = (total * percentage) / 100;
-        return Number((total - discount).toFixed(2));
+    // Calculate discount
+    if (cartCount >= storeConfig.bulkQuantityThreshold && storeConfig.bulkDiscountPercent > 0) {
+        discount = cartTotal * (storeConfig.bulkDiscountPercent / 100);
+    } else if (storeConfig.discountPercent > 0) {
+        discount = cartTotal * (storeConfig.discountPercent / 100);
     }
 
-    const discountPercent = 5;
-    const discountedTotal = getDiscountedTotal(cartTotal, discountPercent);
+    let disPercentForHtml = 0;
+    if (cartCount >= storeConfig.bulkQuantityThreshold && storeConfig.bulkDiscountPercent > 0) {
+        disPercentForHtml = storeConfig.bulkDiscountPercent;
+    } else if (storeConfig.discountPercent > 0) {
+        disPercentForHtml = storeConfig.discountPercent;
+    }
 
+    const discountedTotal = cartTotal - discount;
 
     return (
         <main className="min-h-screen flex flex-col max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">
@@ -245,9 +256,53 @@ const CheckoutPage = () => {
                     </Button>
                 </div>
             )}
+
             {isAuthenticated && user && (
                 <form onSubmit={handleSubmit} className="space-y-4 lg:flex lg:space-x-6">
                     <div className="space-y-4 lg:flex-1">
+
+                        {/* Saved Addresses Section */}
+                        {user?.shippingAddress && user.shippingAddress.length > 0 && (
+                            <div className="bg-muted p-4 rounded-md mb-6">
+                                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <MapPin size={20} />
+                                    Your Saved Addresses
+                                </h2>
+                                <div className="space-y-3">
+                                    {user.shippingAddress.map((savedAddress, index) => (
+                                        <div key={savedAddress._id || index} className="bg-background p-3 rounded-md border-l-4 border-primary">
+                                            <div className="flex flex-col justify-between items-start gap-3">
+                                                <div className="flex-1">
+                                                    <p className="font-medium text-sm mb-1">
+                                                        {savedAddress.city}, {savedAddress.state}
+                                                        {savedAddress.zip && ` - ${savedAddress.zip}`}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
+                                                        {savedAddress.address}
+                                                    </p>
+                                                    {savedAddress.landmark && (
+                                                        <p className="text-xs text-muted-foreground">
+                                                            <span className="font-medium">Landmark:</span> {savedAddress.landmark}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => handleSelectSavedAddress(savedAddress)}
+                                                    className="flex items-center gap-2 whitespace-nowrap"
+                                                >
+                                                    <Check size={14} />
+                                                    Select This Address
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         <h2 className="text-xl font-semibold underline">Shipping Address</h2>
                         <div>
                             <label htmlFor="fullName"
@@ -322,7 +377,7 @@ const CheckoutPage = () => {
                                             </p>
                                         </div>
                                     ) : addressSuggestions.length > 0 ? (
-                                        <ul className="absolute bg-muted border rounded-md shadow-md mt-1 w-full z-10">
+                                        <ul className="absolute bg-muted border rounded-md shadow-md mt-1 w-full z-10 max-h-80 overflow-y-auto">
                                             {addressSuggestions.map((item, index) => (
                                                 <li
                                                     key={index}
@@ -411,7 +466,6 @@ const CheckoutPage = () => {
                         </div>
                     </div>
 
-
                     <div className="lg:w-[400px] lg:mt-17 flex flex-col gap-4">
 
                         <div>
@@ -467,7 +521,6 @@ const CheckoutPage = () => {
                             </div>
                         </div>
 
-
                         <div className="bg-muted p-4 rounded-md">
                             <h2 className="text-xl font-semibold mb-2">Cart Summary</h2>
                             {cartItems.length === 0 ? (
@@ -477,22 +530,22 @@ const CheckoutPage = () => {
 
                                     <li className="flex justify-between">
                                         <span>Items</span>
-                                        <span>{cartItems.reduce((total, item) => total + item.quantity, 0)}</span>
+                                        <span>{cartCount}</span>
                                     </li>
 
                                     <li className="flex justify-between">
                                         <span>Net Ammount</span>
-                                        <span>₹ {cartTotal.toFixed(2)}</span>
+                                        <span>Rs. {cartTotal.toFixed(2)}</span>
                                     </li>
 
                                     <li className="flex justify-between">
                                         <span>Discount</span>
-                                        <span>{discountPercent}%</span>
+                                        <span>Rs. {discount.toFixed(2)} ({disPercentForHtml}%)</span>
                                     </li>
 
                                     <li className="flex justify-between font-semibold border-t pt-2 mt-2">
                                         <span>Total</span>
-                                        <span>Rs. {discountedTotal}</span>
+                                        <span>Rs. {discountedTotal.toFixed(2)}</span>
                                     </li>
                                 </ul>
                             )}
@@ -503,7 +556,7 @@ const CheckoutPage = () => {
                             disabled={loading || !form.isValidLocation}
                             className="w-full rounded-full font-semibold text-md p-6"
                         >
-                            {loading ? "Placing Order..." : "Buy Now (Cash on Delivery)"}
+                            {loading ? "Placing Order..." : "Place Order"}
                         </Button>
                         {form.isValidLocation === false && (
                             <p className="text-red-500 text-sm">We only deliver within Pakistan.</p>

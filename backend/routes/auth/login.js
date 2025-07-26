@@ -50,11 +50,11 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        // Generate tokens
+
         const accessToken = generate.accessToken(user);
         const refreshToken = generate.refreshToken(user)
 
-        // Set HTTP-only cookies
+
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: true,

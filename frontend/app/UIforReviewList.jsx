@@ -2,7 +2,18 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { StarIcon, OutlineStarIcon } from "@/universal/Icons";
 import cred from "@/mine.config";
-import { BadgeCheck, Cat } from 'lucide-react'
+import { BadgeCheck, Cat, Shield, EllipsisVertical } from 'lucide-react'
+import useAuthStore from "@/AuthStore/userStore";
+import { toast } from "sonner";
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const FILTERS = [
     { label: "Recent", value: "recent" },
@@ -21,6 +32,8 @@ const ReviewList = () => {
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const { user } = useAuthStore();
 
     // For fade logic
     const filterScrollRef = useRef(null);
@@ -56,7 +69,7 @@ const ReviewList = () => {
             if (!isDragging.current) return;
             e.preventDefault();
             const x = e.pageX - el.offsetLeft;
-            const walk = (x - startX.current) * 1; // scroll-fastness
+            const walk = (x - startX.current) * 1;
             el.scrollLeft = scrollLeft.current - walk;
         };
 
@@ -102,10 +115,9 @@ const ReviewList = () => {
     // Fetch on filter change
     useEffect(() => {
         fetchReviews(true);
-        // eslint-disable-next-line
     }, [filter]);
 
-    // Infinite scroll
+
     const lastReviewRef = useCallback(
         (node) => {
             if (loading) return;
@@ -140,8 +152,6 @@ const ReviewList = () => {
         };
     }, []);
 
-
-
     // chat gpt
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -159,6 +169,16 @@ const ReviewList = () => {
         const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
 
         return `${datePart} - ${hours}:${minutesStr} ${ampm}`;
+    }
+
+
+    const copyToClipboard = (text, toastMsg) => {
+        navigator.clipboard.writeText(text).then(() => {
+            toast.success(toastMsg || "Copied to clipboard");
+        }).catch(err => {
+            console.error("Failed to copy text: ", err);
+            toast.error("Failed to copy");
+        });
     }
 
     return (
@@ -203,16 +223,6 @@ const ReviewList = () => {
                         </button>
                     ))}
                 </div>
-                {/* Hide scrollbar cross-browser */}
-                <style jsx>{`
-                    .scrollbar-hide::-webkit-scrollbar {
-                        display: none;
-                    }
-                    .scrollbar-hide {
-                        -ms-overflow-style: none;
-                        scrollbar-width: none;
-                    }
-                `}</style>
             </div>
 
             {/* Reviews List */}
@@ -221,10 +231,6 @@ const ReviewList = () => {
                     <div className="text-center text-muted-foreground py-8">No reviews found.</div>
                 )}
                 {reviews.map((review, idx) => (
-
-
-
-
                     <div key={review._id}
                         ref={idx === reviews.length - 1 ? lastReviewRef : null}
                         className="bg-muted rounded-md p-4 flex flex-col gap-2">
@@ -232,7 +238,7 @@ const ReviewList = () => {
                             <div className="h-10 w-10 rounded-full bg-[#321069] flex justify-center items-center relative">
                                 <span className="font-semibold text-[22px]">{review.name.charAt(0).toUpperCase()}</span>
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex-1 flex flex-col">
                                 <p className="font-bold flex items-center gap-0.5">
                                     {review.name.toUpperCase()}
 
@@ -243,6 +249,24 @@ const ReviewList = () => {
                                 </p>
                                 <span className="text-[9px] text-muted-foreground">{formatDate(review.createdAt)}</span>
                             </div>
+                            {user && user.accountType === "admin" && (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className="p-2 rounded-full bg-muted-foreground/10 border-0 outline-0">
+                                        <EllipsisVertical size={20} className="cursor-pointer" />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="mr-4">
+                                        <DropdownMenuLabel>Admin Actions</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => {
+                                            copyToClipboard(review._id, "Review ID copied to clipboard");
+                                        }}>Copy Review ID</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => {
+                                            copyToClipboard(review.user, "User ID copied to clipboard");
+                                        }}>Copy User ID</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-1 ml-10">
@@ -258,13 +282,31 @@ const ReviewList = () => {
                                 ))}
                             </div>
                             {review.text && <p className="text-sm text-muted-foreground">{review.text}</p>}
+
+                            {/* Admin Reply */}
+                            {review.adminReply && (
+                                <div className="mt-3 bg-background rounded-lg p-3 border-l-4 border-primary">
+                                    <div className="flex gap-2 items-center mb-2">
+                                        <div className="h-8 w-8 rounded-full bg-primary flex justify-center items-center">
+                                            <Shield size={16} className="text-primary-foreground" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <p className="font-semibold text-primary text-sm flex items-center gap-1">
+                                                {review.adminReply.name}
+                                                <Shield size={12} />
+                                            </p>
+                                            <span className="text-[9px] text-muted-foreground">
+                                                {formatDate(review.adminReply.date)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground ml-10">
+                                        {review.adminReply.text}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
-
-
-
-
-
                 ))}
                 {loading && (
                     <div className="flex items-center justify-center my-8">
@@ -285,7 +327,6 @@ const ReviewList = () => {
                     <div className="flex flex-col items-center mt-10 mb-20">
                         <Cat className="animate-shake-twice" size={68} />
                         <p className="text-muted-foreground mt-2 text-xl font-semibold"> You are all caught up.</p>
-
                     </div>
                 )}
             </div>

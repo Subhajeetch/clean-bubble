@@ -46,7 +46,6 @@ router.post("/review", async (req, res) => {
     }
 
     try {
-        // If orderId is provided, validate it
         if (orderId) {
             const order = await Order.findById(orderId);
             if (!order || order.user.toString() !== decodedUser.sub) {

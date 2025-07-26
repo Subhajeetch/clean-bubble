@@ -1,6 +1,55 @@
 import { Badge } from "@/components/ui/badge";
 import { PencilLine } from "lucide-react";
 
+
+export const metadata = {
+    title: "Blog - Clean Bubble",
+    description:
+        "Insights, tips, and updates from the Clean Bubble team.",
+    keywords: [
+        "Clean Bubble",
+        "Blog",
+        "Hand Sanitizer",
+        "Foaming Hand Sanitizer",
+        "Premium Hand Sanitizer",
+        "Germ Protection",
+        "Skin Care",
+        "Alcohol-Based Sanitizer",
+        "Moisturizing Hand Sanitizer",
+        "Lavender Scented Sanitizer"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Blog - Clean Bubble",
+        description:
+            "Insights, tips, and updates from the Clean Bubble team.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/blog"
+    },
+};
+
 export default function BlogPage() {
     return (
         <main className="min-h-fit max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">

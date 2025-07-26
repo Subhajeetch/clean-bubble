@@ -1,7 +1,94 @@
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 
-export default function HelpCenterPage() {
+import axios from "axios";
+import cred from "@/mine.config";
+
+export const metadata = {
+    title: "Help Center - Clean Bubble",
+    description:
+        "Find answers to common questions and learn how to get the most out of Clean Bubble. From placing orders to tracking your laundry, our Help Center has you covered.",
+    keywords: [
+        "Clean Bubble",
+        "Help Center",
+        "FAQ",
+        "Customer Support",
+        "Order Tracking",
+        "Laundry Service",
+        "Foaming Hand Sanitizer",
+        "Premium Hand Sanitizer",
+        "Germ Protection",
+        "Skin Care",
+        "Alcohol-Based Sanitizer",
+        "Moisturizing Hand Sanitizer",
+        "Lavender Scented Sanitizer"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Help Center - Clean Bubble",
+        description:
+            "Find answers to common questions and learn how to get the most out of Clean Bubble. From placing orders to tracking your laundry, our Help Center has you covered.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/help"
+    },
+};
+
+
+async function fetchStoreConfig() {
+    try {
+        const res = await axios.get(`${cred.backendURL}/api/store/config`);
+        //   console.log('Fetched Store Config:', res.data);
+        if (res.data.success) {
+            return {
+                price: res.data.price || 299,
+                discountPercent: res.data.discountPercent || 0,
+                bulkDiscountPercent: res.data.bulkDiscountPercent || 0.2,
+                bulkQuantityThreshold: res.data.bulkQuantityThreshold || 30,
+            };
+        }
+    } catch (err) {
+        console.error('Failed to fetch store config', err);
+        // Return default values on error
+        return {
+            price: 299,
+            discountPercent: 0,
+            bulkDiscountPercent: 0.2,
+            bulkQuantityThreshold: 30,
+        };
+    }
+}
+
+export default async function HelpCenterPage() {
+
+    const storeConfig = await fetchStoreConfig();
+
+
+    const bulkDiscountPercent = storeConfig.bulkDiscountPercent;
+    const bulkQuantityThreshold = storeConfig.bulkQuantityThreshold;
+    const bulkPrice = storeConfig.price - (storeConfig.price * (bulkDiscountPercent / 100));
+
     return (
         <main className="min-h-screen max-w-2xl mx-auto px-4 pt-31 md:pt-41">
             <section className="mb-10 text-center">
@@ -20,19 +107,19 @@ export default function HelpCenterPage() {
                 <AccordionItem value="ordering">
                     <AccordionTrigger>How do I place an order?</AccordionTrigger>
                     <AccordionContent>
-                        Go to the <span className="font-semibold text-foreground">Order</span> page, select your desired laundry service, add your garments, and proceed to checkout. Fill in your delivery details and confirm your order. You’ll receive a confirmation and can track your order status in your account.
+                        Go to the <strong>Order</strong> page, select your desired laundry service, add your garments, and proceed to checkout. Fill in your delivery details and confirm your order. You’ll receive a confirmation and can track your order status in your account.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="bulk">
                     <AccordionTrigger>How does the bulk discount work?</AccordionTrigger>
                     <AccordionContent>
-                        If you place <span className="font-semibold text-foreground">5 or more orders</span> at once, a 20% discount is automatically applied at checkout. No coupon code is needed.
+                        If you place <strong>{bulkQuantityThreshold} or more orders</strong> at once, a {bulkDiscountPercent}% discount is automatically applied at checkout, making it <strong> only Rs. {bulkPrice.toFixed(2)} PKR</strong> per item. No coupon code is needed.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="tracking">
                     <AccordionTrigger>How can I track my order?</AccordionTrigger>
                     <AccordionContent>
-                        After placing an order, you can view its progress on the <span className="font-semibold text-foreground">Order Details</span> page. You’ll see real-time updates as your order moves from <span className="font-semibold">Ordered</span> to <span className="font-semibold">Delivered</span>.
+                        After placing an order, you can view its progress on the <strong>Order Details</strong> page. You’ll see real-time updates as your order moves from <strong>Ordered</strong> to <strong>Delivered</strong>.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="cancel">
@@ -50,7 +137,7 @@ export default function HelpCenterPage() {
                 <AccordionItem value="payment">
                     <AccordionTrigger>What payment methods are available?</AccordionTrigger>
                     <AccordionContent>
-                        <span className="font-semibold text-foreground">Only Cash on Delivery (COD)</span> is available. Pay when your order is delivered—no online payment required.
+                        <strong>Only Cash on Delivery (COD)</strong> is available. Pay when your order is delivered—no online payment required.
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="privacy">

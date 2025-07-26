@@ -85,8 +85,6 @@ router.post('/create', async (req, res) => {
     });
 
     try {
-
-        // Save the order to the database
         if (!newOrder) {
             return res.status(400).json({
                 success: false,
@@ -96,7 +94,6 @@ router.post('/create', async (req, res) => {
         await newOrder.save();
 
 
-        // Update the user's order history
         await User.findByIdAndUpdate(decodedUser.sub, {
             $push: { orders: newOrder._id }
         }, { new: true });
@@ -135,7 +132,7 @@ router.post('/create', async (req, res) => {
             }]
         }, { new: true });
 
-        console.log("Order created successfully:", newOrder);
+        // console.log("Order created successfully:", newOrder);
 
     } catch (error) {
         console.error("Error creating order:", error);

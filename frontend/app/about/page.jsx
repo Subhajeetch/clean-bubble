@@ -1,6 +1,55 @@
 import { Badge } from "@/components/ui/badge";
 import { FlaskConical } from "lucide-react";
 
+
+export const metadata = {
+    title: "About Us - Clean Bubble",
+    description:
+        "Read about the journey of Clean Bubble, a premium foaming hand sanitizer born from a university chemistry project. Discover how we combined science and care to create a unique product that kills 99.9% of germs while being gentle on your skin.",
+    keywords: [
+        "Clean Bubble",
+        "About Us",
+        "Hand Sanitizer",
+        "University Project",
+        "Premium Foaming Hand Sanitizer",
+        "Germ Protection",
+        "Skin Care",
+        "Alcohol-Based Sanitizer",
+        "Moisturizing Hand Sanitizer",
+        "Lavender Scented Sanitizer"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "About Us - Clean Bubble",
+        description:
+            "Read about the journey of Clean Bubble, a premium foaming hand sanitizer born from a university chemistry project. Discover how we combined science and care to create a unique product that kills 99.9% of germs while being gentle on your skin.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/about"
+    },
+};
+
 export default function AboutPage() {
     return (
         <main className="min-h-fit max-w-2xl mx-auto px-4 pt-31 md:pt-41">

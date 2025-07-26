@@ -22,7 +22,7 @@ export default function AuthProvider({ children }) {
                     withCredentials: true
                 });
 
-                console.log(response)
+                // console.log(response)
 
                 if (response.data.success) {
                     setUser(response.data.user);

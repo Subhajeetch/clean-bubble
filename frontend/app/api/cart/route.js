@@ -1,7 +1,7 @@
 import { headers, cookies as getCookies } from 'next/headers';
 
 export async function GET() {
-    const cookieStore = getCookies();
+    const cookieStore = await getCookies(); // Add await here
     const cartCookie = cookieStore.get('cart');
 
     const cart = cartCookie ? JSON.parse(decodeURIComponent(cartCookie.value)) : [];
@@ -14,7 +14,7 @@ export async function GET() {
 
 export async function POST(req) {
     const { cart } = await req.json();
-    const cookieStore = getCookies();
+    const cookieStore = await getCookies(); // Add await here
 
     cookieStore.set('cart', encodeURIComponent(JSON.stringify(cart)), {
         httpOnly: true,

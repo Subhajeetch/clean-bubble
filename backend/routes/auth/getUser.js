@@ -77,6 +77,8 @@ router.get('/get/user', async (req, res) => {
         // Remove password before sending user object
         delete user.password;
 
+        //   console.log("User fetched successfully:", user);
+
         return res.status(200).json({
             success: true,
             message: "Login verified!",

@@ -47,9 +47,17 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    resetPasswordToken: {
-        type: String,
-        default: null
+    isOwner: {
+        type: Boolean,
+        default: false
+    },
+    resetPassword: {
+        otp: {
+            type: Number
+        },
+        validity: {
+            type: Number
+        }
     },
     notifications: [{
         title: {

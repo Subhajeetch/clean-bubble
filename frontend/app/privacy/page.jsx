@@ -1,3 +1,51 @@
+export const metadata = {
+    title: "Privacy Policy - Clean Bubble",
+    description:
+        "Read our privacy policy to understand how we handle your data. Clean Bubble is a premium foaming hand sanitizer developed as part of a university chemistry project, ensuring your information is safe and secure.",
+    keywords: [
+        "Clean Bubble",
+        "Privacy Policy",
+        "Hand Sanitizer",
+        "University Project",
+        "Premium Foaming Hand Sanitizer",
+        "Germ Protection",
+        "Skin Care",
+        "Alcohol-Based Sanitizer",
+        "Moisturizing Hand Sanitizer",
+        "Lavender Scented Sanitizer"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Privacy Policy - Clean Bubble",
+        description:
+            "Read our privacy policy to understand how we handle your data. Clean Bubble is a premium foaming hand sanitizer developed as part of a university chemistry project, ensuring your information is safe and secure.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/privacy"
+    },
+};
+
 export default function PrivacyPolicyPage() {
     return (
         <main className="min-h-screen max-w-[1200px] mx-auto px-4 pt-31 md:pt-41">

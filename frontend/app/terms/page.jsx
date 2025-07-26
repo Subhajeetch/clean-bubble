@@ -1,5 +1,53 @@
 import { Badge } from "@/components/ui/badge";
 
+
+export const metadata = {
+    title: "Terms and Conditions - Clean Bubble",
+    description:
+        "Please read our terms and conditions carefully before using the Clean Bubble website. Clean Bubble is a university chemistry project, and the website is for educational purposes only.",
+    keywords: [
+        "Clean Bubble",
+        "Terms and Conditions",
+        "University Project",
+        "Educational Website",
+        "Hand Sanitizer",
+        "Privacy Policy",
+        "User Agreement",
+        "Website Terms",
+        "Project Terms and Conditions"
+    ],
+    robots: {
+        index: true,
+        follow: true,
+        nocache: false,
+        googleBot: {
+            index: true,
+            follow: true
+        }
+    },
+    authors: [{ name: "Clean Bubble" }],
+    openGraph: {
+        title: "Terms and Conditions - Clean Bubble",
+        description:
+            "Please read our terms and conditions carefully before using the Clean Bubble website. Clean Bubble is a university chemistry project, and the website is for educational purposes only.",
+        url: "https://clean-bubble.vercel.app",
+        siteName: "Clean Bubble",
+        images: [
+            {
+                url: "https://i.imgur.com/IJGMd4a.png",
+                width: 1200,
+                height: 1200,
+                alt: "Clean Bubble Website Banner"
+            }
+        ],
+        locale: "en_US",
+        type: "website"
+    },
+    alternates: {
+        canonical: "/terms"
+    },
+};
+
 export default function TermsPage() {
     return (
         <main className="min-h-screen max-w-2xl mx-auto px-4 pt-31 md:pt-41">

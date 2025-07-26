@@ -3,14 +3,35 @@
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner";
 import { useCart } from '@/context/cartContext';
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Heart, Box } from "lucide-react";
 import { useSheet } from "@/context/SheetContext";
+import { FaHeart } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
-const AddToCartButton = ({ productData }) => {
+const AddToCartButton = ({ productData, stock }) => {
     const { addToCart } = useCart();
     const { openSheet } = useSheet();
+    const [isLiked, setIsLiked] = useState(false);
+    const [isOutOfStock, setIsOutOfStock] = useState(stock <= 0);
+
+    useEffect(() => {
+        setIsOutOfStock(stock <= 0);
+    }, [stock]);
+
+    // Check localStorage on component mount
+    useEffect(() => {
+        const likedStatus = localStorage.getItem(`liked_${productData.id}`);
+        if (likedStatus === "yes") {
+            setIsLiked(true);
+        }
+    }, [productData.id]);
 
     const handleAddToCart = async () => {
+        //  console.log(stock);
+        if (stock <= 0) {
+            toast.error("Product is out of stock.");
+            return;
+        }
         try {
             const response = await addToCart(productData);
             if (response.success) {
@@ -29,15 +50,46 @@ const AddToCartButton = ({ productData }) => {
         }
     };
 
+    const handleLikeToggle = () => {
+        const newLikedStatus = !isLiked;
+        setIsLiked(newLikedStatus);
+
+        if (newLikedStatus) {
+            localStorage.setItem(`liked_${productData.id}`, "yes");
+        } else {
+            localStorage.removeItem(`liked_${productData.id}`);
+        }
+    };
+
     return (
-        <Button
-            size="xl"
-            className="flex items-center rounded-full px-6 py-3"
-            onClick={handleAddToCart}
-        >
-            <CircleCheck />
-            <span className="font-semibold">Add To Cart</span>
-        </Button>
+        <div className="flex items-center gap-2">
+            <Button
+                size="xl"
+                className="flex items-center rounded-full px-6 py-3"
+                onClick={handleAddToCart}
+            >
+                {isOutOfStock ? (
+                    <>
+                        <Box />
+                        <span className="font-semibold">Out of stock</span>
+                    </>
+                ) : (
+                    <>
+                        <CircleCheck />
+                        <span className="font-semibold">Add to cart</span>
+                    </>
+                )}
+
+            </Button>
+
+            <Button variant="outline" className="" onClick={handleLikeToggle}>
+                {isLiked ? (
+                    <FaHeart className="text-forground" />
+                ) : (
+                    <Heart />
+                )}
+            </Button>
+        </div>
     );
 };
 
