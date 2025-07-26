@@ -11,6 +11,11 @@ router.get('/get/user', async (req, res) => {
         const accessToken = req.cookies.accessToken;
         const refreshToken = req.cookies.refreshToken;
 
+        console.log({
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        })
+
 
         if (!accessToken && !refreshToken) {
             return res.status(401).json({

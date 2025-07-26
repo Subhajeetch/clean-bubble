@@ -1,5 +1,5 @@
 const cred = {
-    backendURL: 'https://clean-bubble-backend.vercel.app',
+    backendURL: 'http://localhost:9000',
 }
 
 export default cred;
