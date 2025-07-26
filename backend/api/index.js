@@ -2,24 +2,21 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-
-
-// momgodb
 const mongoose = require('mongoose');
 
-// routes
 const routes = require('../routes');
 
 const app = express();
-const port = 9000;
 dotenv.config();
+
+// Middleware
 app.use(cookieParser());
 app.use(express.json());
 
-// only specific origins
+// CORS configuration
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://your-frontend-domain.com'
+    'https://clean-bubble.vercel.app'
 ];
 
 app.use(cors({
@@ -27,25 +24,49 @@ app.use(cors({
     credentials: true
 }));
 
+let isConnected = false;
+
+const connectToDatabase = async () => {
+    if (isConnected) {
+        return;
+    }
+
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            bufferCommands: false,        // Disable mongoose buffering
+            bufferMaxEntries: 0,          // Disable mongoose buffering  
+            maxPoolSize: 10,              // Maintain up to 10 socket connections
+            serverSelectionTimeoutMS: 5000, // Keep trying for 5 seconds
+            socketTimeoutMS: 45000,       // Close sockets after 45 seconds
+            family: 4                     // Use IPv4
+        });
+
+        isConnected = true;
+        console.log('Connected to MongoDB');
+    } catch (error) {
+        console.error('MongoDB connection error:', error);
+        throw error;
+    }
+};
 
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI).then((conn) => {
-    console.log('Connected to MongoDB. Collection Name:', conn.connection.name);
-}).catch(err => {
-    console.error('MongoDB connection error:', err);
+app.use(async (req, res, next) => {
+    try {
+        await connectToDatabase();
+        next();
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        res.status(500).json({ error: 'Database connection failed' });
+    }
 });
 
-
+// Routes
 app.get('/', (req, res) => {
-    res.json({ message: 'gyatttt!' });
+    res.json({ message: 'Backend API is working on Vercel!' });
 });
 
-
-// all the routes
 app.use('/api', routes);
 
-
-app.listen(port, () => {
-    console.log(`Server is up: http://localhost:${port}`);
-});
+module.exports = app;
