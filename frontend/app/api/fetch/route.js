@@ -1,3 +1,11 @@
+// i made this universal proxy for all the api calls because i was having issues with cors and cookies, my backend is hosted on different domain and i wanted to use cookies for authentication, so i had to create this proxy to handle the requests and responses properly
+
+// you wont need this if you just make your backend and frontend on the same domain, but if you want to use cookies for authentication and your backend is hosted on a different domain, you will need to use this proxy
+
+// also there is a diffrent way to authenticate using barer token, but i wanted to use cookies for authentication, so i had to create this proxy to host this demo project.
+
+
+
 import { cookies } from "next/headers";
 import axios from "axios";
 
@@ -15,7 +23,6 @@ export async function OPTIONS() {
 
 async function handleRequest(request, method) {
     try {
-        // Get the target URL from query parameters
         const { searchParams } = new URL(request.url);
         const targetUrl = searchParams.get('url');
 
@@ -38,7 +45,6 @@ async function handleRequest(request, method) {
 
         const cookieStore = await cookies();
 
-        // Get all cookies and format them for cookie-parser
         const allCookies = cookieStore.getAll();
         let cookieString = "";
 
@@ -48,13 +54,11 @@ async function handleRequest(request, method) {
                 .join('; ');
         }
 
-        // Prepare headers for axios request
         const headers = {
             "Content-Type": "application/json",
             "User-Agent": request.headers.get("user-agent") || "NextJS-Proxy/1.0"
         };
 
-        // Add cookies to headers if they exist
         if (cookieString) {
             headers.Cookie = cookieString;
         }
