@@ -45,8 +45,19 @@ async function handleRequest(request, method) {
             );
         }
 
-        const cookieStore = await cookies();
+        // Parse and build the complete target URL with query parameters
+        const targetUrlObj = new URL(targetUrl);
 
+        // Get all search params except 'url' and append them to target URL
+        searchParams.forEach((value, key) => {
+            if (key !== 'url') {
+                targetUrlObj.searchParams.set(key, value);
+            }
+        });
+
+        const finalTargetUrl = targetUrlObj.toString();
+
+        const cookieStore = await cookies();
         const allCookies = cookieStore.getAll();
         let cookieString = "";
 
@@ -65,15 +76,14 @@ async function handleRequest(request, method) {
             headers.Cookie = cookieString;
         }
 
-        // Prepare axios config
+        // Prepare axios config with final URL including all query parameters
         const axiosConfig = {
             method: method.toLowerCase(),
-            url: targetUrl,
+            url: finalTargetUrl,
             headers: headers,
-            timeout: 30000, // 30 second timeout
-            withCredentials: false, // We're handling cookies manually
+            timeout: 30000,
+            withCredentials: false,
             validateStatus: function (status) {
-                // Don't throw errors for any status code
                 return status >= 200 && status < 600;
             }
         };
@@ -111,16 +121,12 @@ async function handleRequest(request, method) {
         // Handle cookies from backend response
         const setCookieHeaders = backendResponse.headers['set-cookie'];
         if (setCookieHeaders && Array.isArray(setCookieHeaders)) {
-            const cookieStore = await cookies();
-
             setCookieHeaders.forEach(cookieHeader => {
                 try {
-                    // Parse cookie header (format: "name=value; options")
                     const [nameValue, ...options] = cookieHeader.split(';');
                     const [name, value] = nameValue.trim().split('=');
 
                     if (name && value) {
-                        // Parse cookie options
                         const cookieOptions = {
                             httpOnly: true,
                             secure: process.env.NODE_ENV === 'production',
@@ -128,7 +134,6 @@ async function handleRequest(request, method) {
                             path: '/'
                         };
 
-                        // Override with options from backend if present
                         options.forEach(option => {
                             const [key, val] = option.trim().split('=');
                             switch (key.toLowerCase()) {
@@ -153,7 +158,6 @@ async function handleRequest(request, method) {
                             }
                         });
 
-                        // Set the cookie
                         cookieStore.set(name, value, cookieOptions);
                     }
                 } catch (cookieError) {
@@ -162,7 +166,6 @@ async function handleRequest(request, method) {
             });
         }
 
-        // Prepare response data
         let responseData;
         if (typeof backendResponse.data === 'string') {
             responseData = backendResponse.data;
@@ -178,9 +181,7 @@ async function handleRequest(request, method) {
     } catch (error) {
         console.error('Proxy error:', error);
 
-        // Handle axios errors specifically
         if (error.response) {
-            // Backend responded with error status
             return new Response(
                 JSON.stringify({
                     success: false,
@@ -198,7 +199,6 @@ async function handleRequest(request, method) {
                 }
             );
         } else if (error.request) {
-            // Network error
             return new Response(
                 JSON.stringify({
                     success: false,
@@ -215,7 +215,6 @@ async function handleRequest(request, method) {
                 }
             );
         } else {
-            // Other error
             return new Response(
                 JSON.stringify({
                     success: false,

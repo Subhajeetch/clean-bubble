@@ -35,6 +35,7 @@ router.get('/users', async (req, res) => {
 
     try {
         const { sort = 'recent', query, page = 1, perPage = 20 } = req.query;
+        //console.log("Query parameters:", { sort, query, page, perPage });
         const pageNum = Math.max(1, parseInt(page));
         const perPageNum = Math.max(1, parseInt(perPage));
         let users = [];
