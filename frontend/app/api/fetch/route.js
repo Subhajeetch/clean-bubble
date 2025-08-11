@@ -4,6 +4,8 @@
 
 // also there is a diffrent way to authenticate using barer token, but i wanted to use cookies for authentication, so i had to create this proxy to host this demo project.
 
+// also claude gave me this code!!!!
+
 
 
 import { cookies } from "next/headers";
