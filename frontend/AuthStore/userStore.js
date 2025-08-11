@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import cred from "@/mine.config"
 
 const useAuthStore = create(set => ({
     user: null,
@@ -15,7 +14,7 @@ const useAuthStore = create(set => ({
     logout: async () => {
         try {
             await axios.post(
-                `${cred.backendURL}/api/auth/logout`,
+                "/api/auth/logout",
                 {},
                 { withCredentials: true }
             );

@@ -57,7 +57,7 @@ export default function AdminOrdersPage() {
                 ...(sort === "search" && search ? { query: search } : {}),
             }).toString();
 
-            const res = await axios.get(`${cred.backendURL}/api/admin/get/orders?${queryParams}`, {
+            const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/orders?${queryParams}`, {
                 withCredentials: true,
             });
 
@@ -117,7 +117,7 @@ export default function AdminOrdersPage() {
     const handleBulkAction = async (status) => {
         try {
             const res = await axios.patch(
-                `${cred.backendURL}/api/admin/orders/update-status`,
+                `/api/fetch?url=${cred.backendURL}/api/admin/orders/update-status`,
                 {
                     orderIds: selectedOrders,
                     status: status,

@@ -53,7 +53,7 @@ export default function AdminOverviewPage() {
         const fetchOverviewData = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`${cred.backendURL}/api/get/overview`, {
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/get/overview`, {
                     withCredentials: true,
                 });
                 // console.log(res)

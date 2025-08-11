@@ -18,7 +18,7 @@ export default function AuthProvider({ children }) {
             setLoading(true); // Start loading
 
             try {
-                const response = await axios.get(`${cred.backendURL}/api/auth/get/user`, {
+                const response = await axios.get("/api/auth/getuser", {
                     withCredentials: true
                 });
 

@@ -91,7 +91,7 @@ export default function AdminTeamPage() {
     const fetchTeamMembers = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`${cred.backendURL}/api/admin/get/team?page=${page}&perPage=${perPage}`, {
+            const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/team?page=${page}&perPage=${perPage}`, {
                 withCredentials: true,
             });
 
@@ -148,7 +148,7 @@ export default function AdminTeamPage() {
 
             if (confirmAction === "remove") {
                 console.log("Removing admins:", confirmData.userIds);
-                await axios.patch(`${cred.backendURL}/api/admin/team/remove-admin`, {
+                await axios.patch(`/api/fetch?url=${cred.backendURL}/api/admin/team/remove-admin`, {
                     userIds: confirmData.userIds
                 }, { withCredentials: true });
 
@@ -156,7 +156,7 @@ export default function AdminTeamPage() {
                 setSelectedMembers([]);
                 handleReload();
             } else if (confirmAction === "add") {
-                await axios.patch(`${cred.backendURL}/api/admin/team/add-admin`, {
+                await axios.patch(`/api/fetch?url=${cred.backendURL}/api/admin/team/add-admin`, {
                     type: confirmData.type,
                     identifier: confirmData.identifier
                 }, { withCredentials: true });

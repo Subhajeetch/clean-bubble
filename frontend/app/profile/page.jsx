@@ -72,7 +72,7 @@ const ProfilePage = () => {
 
 
             axios.get(
-                `${cred.backendURL}/api/get/orders`,
+                `/api/fetch?url=${cred.backendURL}/api/get/orders`,
                 { withCredentials: true }
             ).then(res => {
                 setOrders(res.data.orders || []);

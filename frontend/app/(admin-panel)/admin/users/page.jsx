@@ -59,7 +59,7 @@ const UserPage = () => {
                 ...(sort === "search" && search ? { query: search } : {}),
             }).toString();
             // console.log(queryParams)
-            const res = await axios.get(`${cred.backendURL}/api/admin/get/users?${queryParams}`, { withCredentials: true });
+            const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/users?${queryParams}`, { withCredentials: true });
             // console.log("Fetched Users:", res.data);
             if (res.data && res.data.users) {
                 setUsers(res.data.users);

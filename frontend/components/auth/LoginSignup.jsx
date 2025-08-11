@@ -136,7 +136,7 @@ const AuthSection = () => {
         try {
             setLoginLoading(true);
             const response = await axios.post(
-                `${cred.backendURL}/api/auth/login`,
+                "/api/auth/login",
                 loginData,
                 {
                     headers: { "Content-Type": "application/json" },
@@ -170,9 +170,10 @@ const AuthSection = () => {
     const handleSignUpSubmit = async e => {
         e.preventDefault();
         try {
+            console.log(signUpData)
             setSignupLoading(true);
             const response = await axios.post(
-                `${cred.backendURL}/api/auth/signup`,
+                "/api/auth/signup",
                 signUpData,
                 {
                     headers: { "Content-Type": "application/json" },

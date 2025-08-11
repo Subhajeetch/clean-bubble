@@ -49,7 +49,7 @@ const AdminOrderInfoPage = () => {
         if (!orderId) return;
         const fetchOrder = async () => {
             try {
-                const res = await axios.get(`${cred.backendURL}/api/admin/get/order/${orderId}`, {
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/order/${orderId}`, {
                     withCredentials: true
                 });
                 setOrder(res.data.order);
@@ -130,7 +130,7 @@ const AdminOrderInfoPage = () => {
             }
 
             const res = await axios.put(
-                `${cred.backendURL}/api/admin/update/single/order`,
+                `/api/fetch?url=${cred.backendURL}/api/admin/update/single/order`,
                 {
                     orderId: order._id,
                     type,

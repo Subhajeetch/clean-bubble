@@ -52,7 +52,7 @@ const WriteReview = ({ orderId }) => {
         setLoading(true);
         try {
             const res = await axios.post(
-                `${cred.backendURL}/api/create/review`,
+                `/api/fetch?url=${cred.backendURL}/api/create/review`,
                 {
                     rating,
                     name: user?.fullName,

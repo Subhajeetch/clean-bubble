@@ -55,7 +55,7 @@ export const metadata = {
 
 async function fetchStoreConfig() {
     try {
-        const res = await axios.get(`${cred.backendURL}/api/store/config`);
+        const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/store/config`);
         //   console.log('Fetched Store Config:', res.data);
         if (res.data.success) {
             return {

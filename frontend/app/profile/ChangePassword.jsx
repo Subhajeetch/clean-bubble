@@ -128,7 +128,7 @@ const ChangePassword = () => {
 
         try {
             setIsUpdating(true)
-            const response = await axios.post(`${cred.backendURL}/api/change/password`, {
+            const response = await axios.post(`/api/fetch?url=${cred.backendURL}/api/change/password`, {
                 prePassword: formData.prePassword,
                 newPassword: formData.newPassword,
                 confirmNewPassword: formData.confirmNewPassword

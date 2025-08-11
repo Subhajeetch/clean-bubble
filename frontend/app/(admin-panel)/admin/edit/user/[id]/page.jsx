@@ -289,7 +289,7 @@ const UserInfoPage = ({ params }) => {
         async function fetchUser() {
             setLoading(true);
             try {
-                const res = await axios.get(`${cred.backendURL}/api/admin/get/user/${id}`, { withCredentials: true });
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/user/${id}`, { withCredentials: true });
                 if (res.data.success) {
                     setUser(res.data.user);
                 } else {
@@ -308,7 +308,7 @@ const UserInfoPage = ({ params }) => {
         async function fetchTabs() {
             setLoadingTabs(true);
             try {
-                const res = await axios.get(`${cred.backendURL}/api/admin/fetch/o-r/${id}`, { withCredentials: true });
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/fetch/o-r/${id}`, { withCredentials: true });
                 if (res.data.success) {
                     setOrders(res.data.orders || []);
                     setReviews(res.data.reviews || []);
@@ -339,7 +339,7 @@ const UserInfoPage = ({ params }) => {
     const handleDeleteNotification = async (notifId) => {
         if (!notifId) return;
         try {
-            const res = await axios.delete(`${cred.backendURL}/api/admin/delete/notification/${user._id}/${notifId}`, { withCredentials: true });
+            const res = await axios.delete(`/api/fetch?url=${cred.backendURL}/api/admin/delete/notification/${user._id}/${notifId}`, { withCredentials: true });
             if (res.data.success) {
                 toast.success(res.data.message || "Notification deleted successfully");
                 setUser(prev => ({
@@ -380,7 +380,7 @@ const UserInfoPage = ({ params }) => {
         if (dialog === "isVerified") updatePayload = { isVerified: !!editData.isVerified };
         try {
             console.log("Update Payload:", updatePayload);
-            const res = await axios.put(`${cred.backendURL}/api/admin/update/user/${id}`, updatePayload, { withCredentials: true });
+            const res = await axios.put(`/api/fetch?url=${cred.backendURL}/api/admin/update/user/${id}`, updatePayload, { withCredentials: true });
             if (res.data.success) {
                 toast.success("User updated successfully");
                 setUser(res.data.user);

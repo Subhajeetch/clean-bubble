@@ -148,7 +148,7 @@ const CheckoutPage = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post(`${cred.backendURL}/api/order/create`, {
+            const response = await axios.post(`/api/fetch?url=${cred.backendURL}/api/order/create`, {
                 products: cartItems,
                 name: form.fullName,
                 totalItems: cartItems.reduce((acc, item) => acc + item.quantity, 0),

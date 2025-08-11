@@ -54,7 +54,7 @@ const AdminReviewInfoPage = () => {
         if (!reviewId) return;
         const fetchReview = async () => {
             try {
-                const res = await axios.get(`${cred.backendURL}/api/admin/get/review/${reviewId}`, {
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/review/${reviewId}`, {
                     withCredentials: true
                 });
                 setReview(res.data.review);
@@ -130,7 +130,7 @@ const AdminReviewInfoPage = () => {
             }
 
             const res = await axios.patch(
-                `${cred.backendURL}/api/admin/update/review/${review._id}`,
+                `/api/fetch?url=${cred.backendURL}/api/admin/update/review/${review._id}`,
                 payload,
                 { withCredentials: true }
             );

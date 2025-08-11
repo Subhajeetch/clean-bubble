@@ -62,7 +62,7 @@ export default function AdminReviewsPage() {
                 ...(sort === "search" && search ? { query: search } : {}),
             }).toString();
 
-            const res = await axios.get(`${cred.backendURL}/api/admin/get/reviews?${queryParams}`, {
+            const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/reviews?${queryParams}`, {
                 withCredentials: true
             });
 

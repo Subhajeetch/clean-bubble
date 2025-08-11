@@ -53,7 +53,7 @@ const EditProfile = () => {
 
         try {
             setIsUpdating(true)
-            const response = await axios.post(`${cred.backendURL}/api/edit/profile`, {
+            const response = await axios.post(`/api/fetch?url=${cred.backendURL}/api/edit/profile`, {
                 fullName: formData.fullName,
                 email: formData.email,
                 phone: formData.phone

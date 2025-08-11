@@ -27,7 +27,7 @@ export default function StoreConfigPage() {
         async function fetchConfig() {
             setLoading(true);
             try {
-                const res = await axios.get(`${cred.backendURL}/api/admin/get/store/config`, { withCredentials: true });
+                const res = await axios.get(`/api/fetch?url=${cred.backendURL}/api/admin/get/store/config`, { withCredentials: true });
                 const data = res.data.config;
                 //  console.log("Store Config Data:", data);
                 if (data && typeof data.price !== "undefined") {
@@ -82,7 +82,7 @@ export default function StoreConfigPage() {
         }
         setUpdating(true);
         try {
-            const res = await axios.put(`${cred.backendURL}/api/admin/update/store/config`,
+            const res = await axios.put(`/api/fetch?url=${cred.backendURL}/api/admin/update/store/config`,
                 {
                     price: Number(config.price),
                     discountPercent: Number(config.discountPercent),
