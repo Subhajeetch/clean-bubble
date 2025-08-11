@@ -68,7 +68,7 @@ const Notifications = () => {
         setMarking((prev) => ({ ...prev, [notifId]: true }));
         try {
 
-            await axios.post(`${cred.backendURL}/api/notifs/mark-read`, { id: notifId }, { withCredentials: true });
+            await axios.post(`/api/fetch?url=${cred.backendURL}/api/notifs/mark-read`, { id: notifId }, { withCredentials: true });
             toast.success("Marked as read!");
             if (user && user.notifications) {
                 const idx = user.notifications.findIndex(n => n._id === notifId);

@@ -158,14 +158,14 @@ export async function POST(request) {
         response.cookies.set('accessToken', accessToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
+            sameSite: 'strict',
             maxAge: 15 * 60 * 1000 // 15 minutes
         });
 
         response.cookies.set('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
+            sameSite: 'strict',
             maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         });
 
