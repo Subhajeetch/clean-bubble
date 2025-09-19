@@ -128,20 +128,27 @@ export default async function App() {
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
                 <AccordionTrigger className='text-xl'><h2>Description</h2></AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="ml-2 text-muted-foreground">
                   Experience superior hygiene with our Clean Bubble - Foaming Hand Sanitizer, engineered for rich lather and minimal water use. It effectively removes dirt and kills 99.9% of germs without rinsing. Enriched with lavender essential oil, it leaves hands clean, fresh, and lightly scented—without dryness.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger className='text-xl'><h2>Ingredients</h2></AccordionTrigger>
                 <AccordionContent>
-                  Yes. It comes with default styles that matches the other
-                  components&apos; aesthetic.
+                  <ul className="list-disc ml-6 text-muted-foreground space-y-1">
+                    <li>Water</li>
+                    <li>Alcohol (for germ killing)</li>
+                    <li>Glycerin (for moisture)</li>
+                    <li>Lavender Essential Oil</li>
+                    <li>Gentle surfactants</li>
+                    <li>Skin conditioners</li>
+                    <li>Fragrance</li>
+                  </ul>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
                 <AccordionTrigger className='text-xl'><h2>Usage</h2></AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="ml-2 text-muted-foreground">
                   Dispense a small amount of foam onto dry hands. Rub thoroughly across all areas of the hands until completely dry. No rinsing or water required. Use as needed to maintain effective hand hygiene.
                 </AccordionContent>
               </AccordionItem>

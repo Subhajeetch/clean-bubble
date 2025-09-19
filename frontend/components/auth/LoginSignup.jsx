@@ -19,10 +19,6 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/AuthStore/userStore.js";
 import ForgotPass from "./ForgotPass/ForgotPass";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-
-// mine config
-import cred from "@/mine.config.js";
 
 const AuthSection = () => {
     const { setUser } = useAuthStore();
@@ -148,7 +144,7 @@ const AuthSection = () => {
                 localStorage.setItem("KKXXCHECK", "true");
                 setUser(response.data.user);
                 setLoginLoading(false);
-                router.push("/");
+                //   router.push("/");
                 toast.success(
                     `Welcome Back, ${response.data.user.fullName}!`
                 );
@@ -184,7 +180,7 @@ const AuthSection = () => {
             if (response.data.success) {
                 localStorage.setItem("KKXXCHECK", "true");
                 setUser(response.data.user);
-                router.push("/");
+                // router.push("/");
                 setSignupLoading(false);
 
                 toast.success(`Welcome, ${response.data.user.fullName}!`);
