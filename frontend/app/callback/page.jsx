@@ -1,13 +1,15 @@
 'use client';
 
+
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 
 
-export default function CallbackPage() {
+
+function CallbackPage() {
     const searchParams = useSearchParams();
     const code = searchParams.get('code');
     const [copied, setCopied] = useState(false);
@@ -36,6 +38,14 @@ export default function CallbackPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function CallbackPageWrapper() {
+    return (
+        <Suspense fallback={<div className="p-4 h-screen flex items-center justify-center">Loading...</div>}>
+            <CallbackPage />
+        </Suspense>
     );
 }
 
