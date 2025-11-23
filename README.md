@@ -42,9 +42,10 @@
   ![Screenshot 5](https://i.postimg.cc/L6tKvGsh/pic-1-profile-(2).jpg)
   ![Screenshot 6](https://i.postimg.cc/mDzK95q9/Screenshot-2025-11-23-200332.png)
   ![Screenshot 7](https://i.postimg.cc/wB3rKr90/Screenshot-2025-11-23-200341.png)
-  ![Screenshot 8](https://i.postimg.cc/8zzKWYJ3/Screenshot-2025-11-23-200407.png)
+<img width="1919" height="1079" alt="Screenshot 2025-11-23 200407" src="https://github.com/user-attachments/assets/ca9e1f04-45e6-4017-9961-0f4d73eec8f1" />
   ![Screenshot 9](https://i.postimg.cc/Y0XgwdrD/pic-1-profile-(1).jpg)
-  ![Screenshot 10](https://i.postimg.cc/Hxz8Q6yx/Screenshot-2025-11-23-202348.png)
+  
+<img width="1919" height="1079" alt="Screenshot 2025-11-23 202348" src="https://github.com/user-attachments/assets/3d6a39b6-4045-4fba-a869-729907a6de2b" />
 
 </details>
 
