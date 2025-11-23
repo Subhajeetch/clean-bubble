@@ -31,7 +31,7 @@
 
 
 <details>
-  <summary><strong style="font-size: 1.8rem;">📸 Screenshots</strong></summary>
+  <summary><h1 style="font-size: 30px;">📸 Screenshots</h1></summary>
 
   <br />
 
