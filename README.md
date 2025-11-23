@@ -32,18 +32,18 @@
 
 
 
-## Project overview
+## 📄 Project overview
 
 Clean Bubble is a demo web app showing a production-like split between a Next.js (React) frontend and an Express/MongoDB backend. The frontend uses modern patterns (App Router, server and client components, shadcn/ui-like components, Tailwind CSS). The backend exposes REST endpoints and uses cookies / JWTs for auth.
 
-## Tech stack
+## ⚙️ Tech stack
 
 - Frontend: Next.js (app dir), React 19, Tailwind CSS, sonner (toasts), axios, zustand, shadcn/ui, lucide-react
 - Backend: Node + Express, Mongoose (MongoDB), dotenv, cookie-parser, JWT
 - Dev tools: nodemon (backend), Next dev (frontend)
 
 
-## Local development
+## 🖥️ Local development
 
 Open **two terminals:** one for backend, one for frontend.
 
@@ -73,7 +73,7 @@ npm run dev
 
 Open your browser at `http://localhost:3000` (Next.js dev server).
 
-## Build & production
+## 💭 Build & production
 
 Frontend (build):
 
@@ -91,7 +91,7 @@ npm run start
 
 <br>
 
-## Environment variables
+## 📟 Environment variables
 
 
 **For Backend:**
@@ -125,11 +125,11 @@ REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
 check `frontend/env.local.example` for full information
 
 
-## Contributing
+## 🫂 Contributing
 
 > Feel free to contribute.
 
-## License & contact
+## 📃 License & contact
 
 Project is licensed under the MIT License. Feel free to use, edit, and build upon the code however you wish.
 
