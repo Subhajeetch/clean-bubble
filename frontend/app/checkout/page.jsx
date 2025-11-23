@@ -88,7 +88,7 @@ const CheckoutPage = () => {
 
         debounceTimer.current = setTimeout(async () => {
             try {
-                const apiKey = process.env.NEXT_PUBLIC_ADDRESS_API_KEY;
+                const apiKey = process.env.LOCATION_IQ_API_KEY;
                 const response = await axios.get(
                     `https://api.locationiq.com/v1/autocomplete?key=${apiKey}&q=${form.address}&limit=5&countrycodes=pk&normalizeaddress=1`
                 );
