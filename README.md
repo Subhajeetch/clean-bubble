@@ -30,11 +30,34 @@
 ---
 
 
+<details>
+  <summary><strong style="font-size: 1.8rem;">📸 Screenshots</strong></summary>
 
+  <br />
+
+  ![Screenshot 1](https://i.postimg.cc/bNDfbd72/Screenshot-2025-11-23-200032.png)
+  ![Screenshot 2](https://i.postimg.cc/Nj6V7Xp1/Screenshot-2025-11-23-200047.png)
+  ![Screenshot 3](https://i.postimg.cc/BtWY2ZFh/Screenshot-2025-11-23-200228.png)
+  ![Screenshot 4](https://i.postimg.cc/25cfhv5D/pic-1-profile.jpg)
+  ![Screenshot 5](https://i.postimg.cc/L6tKvGsh/pic-1-profile-(2).jpg)
+  ![Screenshot 6](https://i.postimg.cc/mDzK95q9/Screenshot-2025-11-23-200332.png)
+  ![Screenshot 7](https://i.postimg.cc/wB3rKr90/Screenshot-2025-11-23-200341.png)
+  ![Screenshot 8](https://i.postimg.cc/8zzKWYJ3/Screenshot-2025-11-23-200407.png)
+  ![Screenshot 9](https://i.postimg.cc/Y0XgwdrD/pic-1-profile-(1).jpg)
+  ![Screenshot 10](https://i.postimg.cc/Hxz8Q6yx/Screenshot-2025-11-23-202348.png)
+
+</details>
+
+<br>
 
 ## 📄 Project overview
 
 Clean Bubble is a demo web app showing a production-like split between a Next.js (React) frontend and an Express/MongoDB backend. The frontend uses modern patterns (App Router, server and client components, shadcn/ui-like components, Tailwind CSS). The backend exposes REST endpoints and uses cookies / JWTs for auth.
+
+
+
+
+
 
 ## ⚙️ Tech stack
 
