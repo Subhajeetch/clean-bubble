@@ -7,7 +7,7 @@
 	<p>
 		<a href="https://discord.gg/6DhssCN2Ph"><img src="https://img.shields.io/badge/Join_our-_Discord-5865F2?logo=discord&logoColor=white" alt="Discord server" />
         </a>
-		<a href="https://clean-bubble.vercel.app"><img src="https://img.shields.io/badge/Live-site-brightgreen" alt="npm downloads" /></a>
+		<a href="https://clean-bubble.vercel.app"><img src="https://img.shields.io/badge/Live-site-brightgreen" alt="live site" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main"><img src="https://img.shields.io/github/last-commit/subhajeetch/clean-bubble.svg?logo=github&logoColor=ffffff" alt="Last commit." /></a>
         <a href="https://www.mongodb.com/">
   <img src="https://img.shields.io/badge/MongoDB-%2347A248.svg?logo=mongodb&logoColor=ffffff" alt="MongoDB" />
