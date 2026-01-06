@@ -4,7 +4,9 @@ frontend/build
 frontend/.env
 frontend/.next
 frontend/.env.local
+frontend/package-lock.json
 
 # backend
 backend/node_modules
 backend/.env
+backend/package-lock.json
