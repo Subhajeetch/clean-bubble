@@ -7,7 +7,7 @@
 	<p>
 		<a href="https://discord.gg/6DhssCN2Ph"><img src="https://img.shields.io/badge/Join_our-_Discord-5865F2?logo=discord&logoColor=white" alt="Discord server" />
         </a>
-		<a href="https://clean-bubble.vercel.app"><img src="https://img.shields.io/badge/Live-site-brightgreen" alt="npm downloads" /></a>
+		<a href="https://clean-bubble.vercel.app"><img src="https://img.shields.io/badge/Live-site-brightgreen" alt="live site" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main"><img src="https://img.shields.io/github/last-commit/subhajeetch/clean-bubble.svg?logo=github&logoColor=ffffff" alt="Last commit." /></a>
         <a href="https://www.mongodb.com/">
   <img src="https://img.shields.io/badge/MongoDB-%2347A248.svg?logo=mongodb&logoColor=ffffff" alt="MongoDB" />
@@ -31,7 +31,7 @@
 
 
 <details>
-  <summary><strong style="font-size: 1.8rem;">📸 Screenshots</strong></summary>
+  <summary><h1 style="font-size: 30px;">📸 Screenshots</h1></summary>
 
   <br />
 
@@ -42,9 +42,10 @@
   ![Screenshot 5](https://i.postimg.cc/L6tKvGsh/pic-1-profile-(2).jpg)
   ![Screenshot 6](https://i.postimg.cc/mDzK95q9/Screenshot-2025-11-23-200332.png)
   ![Screenshot 7](https://i.postimg.cc/wB3rKr90/Screenshot-2025-11-23-200341.png)
-  ![Screenshot 8](https://i.postimg.cc/8zzKWYJ3/Screenshot-2025-11-23-200407.png)
+<img width="1919" height="1079" alt="Screenshot 2025-11-23 200407" src="https://github.com/user-attachments/assets/ca9e1f04-45e6-4017-9961-0f4d73eec8f1" />
   ![Screenshot 9](https://i.postimg.cc/Y0XgwdrD/pic-1-profile-(1).jpg)
-  ![Screenshot 10](https://i.postimg.cc/Hxz8Q6yx/Screenshot-2025-11-23-202348.png)
+  
+<img width="1919" height="1079" alt="Screenshot 2025-11-23 202348" src="https://github.com/user-attachments/assets/3d6a39b6-4045-4fba-a869-729907a6de2b" />
 
 </details>
 
