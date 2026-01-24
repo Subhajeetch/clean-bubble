@@ -29,13 +29,14 @@
 
 ---
 
+Full Project Overview: https://youtu.be/8kkdYQgnLtY
+ <br />
+![Screenshot 1](https://i.postimg.cc/bNDfbd72/Screenshot-2025-11-23-200032.png)
 
 <details>
   <summary><h1 style="font-size: 30px;">📸 Screenshots</h1></summary>
 
   <br />
-
-  ![Screenshot 1](https://i.postimg.cc/bNDfbd72/Screenshot-2025-11-23-200032.png)
   ![Screenshot 2](https://i.postimg.cc/Nj6V7Xp1/Screenshot-2025-11-23-200047.png)
   ![Screenshot 3](https://i.postimg.cc/BtWY2ZFh/Screenshot-2025-11-23-200228.png)
   ![Screenshot 4](https://i.postimg.cc/25cfhv5D/pic-1-profile.jpg)
